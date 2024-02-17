@@ -1,0 +1,71 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+ 
+}
+
+.AuthContainer{
+  background-image: url(../src/imgs/ella-olsson-C1Q3qOTlegg-unsplash\ 1.png) !important;
+  background-size: cover;
+  height: 100vh;
+  background-position: center center;
+  text-transform: capitalize;
+  
+}
+
+.AuthLayer{
+  background: linear-gradient(45deg ,rgba(47,140,96,0.4), rgba(0,0,0,0.4)) !important;
+  width: 100%;
+}
+
+a{
+  text-decoration: none;
+}
+
+.sidebarCon .ps-sidebar-container  {
+  background-color: #1F263E!important;
+  color: white;
+  height: 100vh;
+  }
+
+.sidebarCon .ps-sidebar-container .ps-menu-button:hover{
+
+  background-color: rgba(0, 176, 77, 0.3);
+  
+ }
+
+ .sidebarCon .ps-sidebar-container .MenImg{
+  background-color: #1F263E!important;
+  display: flex;
+justify-content: center;
+ }
+
+.sidebarCon .ps-sidebar-container .hideHover:hover{
+  background-color: #1F263E!important;
+
+  
+ }
+
+ .sidebarCon .ps-sidebar-container {
+  border-top-right-radius: 20% !important;
+ }
+
+ .ps-sidebar-root {
+  border-top-right-radius: 20% !important;
+ }
+
+
+ /* login */
+
+
+.fa-eye {
+  position: absolute;
+  top: 50%;
+  right: 10px; 
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
+
+
+

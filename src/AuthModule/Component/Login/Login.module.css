@@ -1,0 +1,14 @@
+/* .secLogin{
+    overflow: hidden;
+} */
+
+.IconInput , .InputLogin{
+    background-color: #f7f7f7 !important;
+}
+
+
+.InputLoginPass{
+    position: relative;
+    background-color: #f7f7f7 !important;
+
+}
