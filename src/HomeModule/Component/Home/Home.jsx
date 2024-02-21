@@ -9,7 +9,7 @@ export default function Home({DataAdmin}) {
     <>
       <ToastContainer />
       <Header className="  text-white" title={`Welcome ${DataAdmin?.userName} !`} 
-      description={<p>This is a welcoming screen for the entry of the application , you can now see the options</p>} 
+      description={`This is a welcoming screen for the entry of the application , you can now see the options`}  
       imgHom ={imgHome}
       
       />

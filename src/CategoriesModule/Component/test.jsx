@@ -1,73 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "../../../SharedModule/Component/Header/Header";
 import imgRes from "../../../imgs/imgRes.png";
 import styleCateg from "../Categories/Categories.module.css";
+import { useState } from "react";
 import axios from "axios";
-import { Modal, Button } from "react-bootstrap";
+import ImgNotData from "../../../SharedModule/Component/ImgNotData/ImgNotData";
+import { Button, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
-import ImgNotData from "../../../SharedModule/Component/ImgNotData/ImgNotData";
-import imgNoDataImg from "../../../imgs/noData.png";
 
 export default function Categories() {
   const [CategoriesList, setCategoriesList] = useState([]);
-  const [show, setShow] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [categoryIdToDelete, setCategoryIdToDelete] = useState(null);
-  const [editMode, setEditMode] = useState(false); 
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
-  // for Modals add
+  // for Modals
 
+  const [show, setShow] = useState(false);
   const handleClose = () => {
     setEditingCategory(null);
     setNewCategoryName("");
     setShow(false);
-    setEditMode(false);
   };
 
   const handleShow = () => setShow(true);
   // end modals
 
-  // show Categories
 
-  const CategoriesShow = async () => {
-    try {
-      let dtaCategories = await axios.get(
-        "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=10&pageNumber=1",
-        {
-          headers: {
-            Authorization: localStorage.getItem("tokemAdmin"),
-          },
-        }
-      );
-      console.log(CategoriesList)
+  // delete
 
-      setCategoriesList(dtaCategories.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const handleShowDeleteModal = () => setShowDeleteModal(true);
+  const handleCloseDeleteModal = () => setShowDeleteModal(false);
 
-  // end show Categories
 
-  useEffect(() => {
-    CategoriesShow();
-  }, []);
+  let {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  // add and updata
-  const submitEdit = async (data) => {
+  // updata and add
+  let submitEdit = async (data) => {
     try {
       if (editingCategory) {
         const updatedCategory = { ...editingCategory, name: newCategoryName };
-        await axios.put(
+        const response = await axios.put(
           `https://upskilling-egypt.com:443/api/v1/Category/${updatedCategory.id}`,
           updatedCategory,
           {
@@ -76,12 +55,13 @@ export default function Categories() {
             },
           }
         );
+
         handleClose();
         CategoriesShow();
         toast.success("Category updated successfully");
       } else {
         const newCategory = { name: newCategoryName };
-        await axios.post(
+        const response = await axios.post(
           `https://upskilling-egypt.com:443/api/v1/Category/`,
           newCategory,
           {
@@ -90,6 +70,7 @@ export default function Categories() {
             },
           }
         );
+
         handleClose();
         CategoriesShow();
         toast.success("Category added successfully");
@@ -100,53 +81,60 @@ export default function Categories() {
     }
   };
 
-  // end  add and updata
-
-  //handle add and updata
-
-  const handleEdit = (category) => {
-    setEditingCategory(category);
-    setNewCategoryName(category.name);
-    setEditMode(true);
-
-    handleShow();
-  };
-
-  const handleDelete = (categoryId) => {
-    setShowDeleteModal(true); // Show delete  modal
-    setCategoryIdToDelete(categoryId); // Set the category ID to delete
-  };
-
-  //handle end  add and updata
-
-  // delete
-  const deleteCategory = async (categoryId) => {
+  // show Categories
+  let CategoriesShow = async () => {
     try {
-      await axios.delete(
-        `https://upskilling-egypt.com:443/api/v1/Category/${categoryId}`,
+      let dtaCategories = await axios.get(
+        "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=10&pageNumber=1",
         {
           headers: {
             Authorization: localStorage.getItem("tokemAdmin"),
           },
         }
       );
-      CategoriesShow();
-      toast.success("Category deleted successfully");
+      setCategoriesList(dtaCategories.data.data);
     } catch (error) {
-      console.error("Error deleting category:", error);
-      toast.error("Failed to delete category");
+      console.log(error);
     }
   };
 
-  const confirmDelete = () => {
-    setShowDeleteModal(false); // Close delete modal
-    deleteCategory(categoryIdToDelete); // Delete the category
+  //
+
+  const handleDeleteConfirm = async ({categoryId}) => {
+    try {
+      await axios.delete("https://upskilling-egypt.com:443/api/v1/Category/${categoryId}", {
+        headers: {
+          Authorization: localStorage.getItem("tokemAdmin"),
+        },
+      });
+
+      console.log("Category deleted");
+      handleClose(); 
+    } catch (error) {
+      console.error("Failed to delete category:", error);
+      
+    }
   };
-  //end delete
+
+  useEffect(() => {
+    CategoriesShow();
+  }, []);
+
+  // this for updata
+  const handleEdit = (category) => {
+    setEditingCategory(category);
+    setNewCategoryName(category.name);
+    handleShow();
+  };
+  // this for add new category
+  const handleAddNew = () => {
+    setEditingCategory(null);
+    setNewCategoryName("");
+    handleShow();
+  };
 
   return (
     <>
-    
       <ToastContainer />
       <Header
         className="text-white"
@@ -176,8 +164,8 @@ export default function Categories() {
               onChange={(e) => setNewCategoryName(e.target.value)}
             />
             <div className="d-flex justify-content-end mt-5">
-              <button className={` btn ${editMode ? "btn-update" : "btn-add"}`}>
-                {editMode ? "Update" : "Add"}
+              <button className={`${styleCateg.btnAdd} btn`}>
+                {editingCategory ? "Save" : "Add"}
               </button>{" "}
             </div>
           </form>
@@ -185,31 +173,18 @@ export default function Categories() {
       </Modal>
 
       {/* modal for delete */}
-      <Modal
-        show={showDeleteModal}
-        onHide={() => setShowDeleteModal(false)}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Body className=" ">
-          {/* Are you sure you want to delete this category? */}
-          <div className=" text-center">
-            <img src={imgNoDataImg} />
 
-            <h5 className=" mt-3">Delete This Category ?</h5>
-            <h6>
-              are you sure you want to delete this item ? if you are sure just
-              click on delete it
-            </h6>
-          </div>
-        </Modal.Body>
+      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this category?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
+          <Button variant="secondary" onClick={handleCloseDeleteModal}>
+            No
           </Button>
-          <Button variant="danger" onClick={confirmDelete}>
-            Delete
+          <Button variant="primary" onClick={handleDeleteConfirm}>
+            Yes
           </Button>
         </Modal.Footer>
       </Modal>
@@ -220,8 +195,12 @@ export default function Categories() {
             <h5>Categories Table Details</h5>
             <h6 className=" text-muted">You can check all details</h6>
           </div>
+
           <div>
-            <button onClick={handleShow} className={`${styleCateg.btnAdd} btn`}>
+            <button
+              onClick={handleAddNew}
+              className={`${styleCateg.btnAdd} btn`}
+            >
               Add New Category
             </button>
           </div>
@@ -231,7 +210,7 @@ export default function Categories() {
       <div className=" text-center mt-5 mx-4 ">
         <table className="table ">
           <thead className="">
-            <tr className="tableActive  ">
+            <tr className="table-active  ">
               <th scope="col "> Name</th>
               <th scope="col">Actions</th>
             </tr>
@@ -242,32 +221,31 @@ export default function Categories() {
             <table className=" table">
               <tbody>
                 {CategoriesList.map((cat, index) => (
-                  <tr
-                    key={index}
-                    style={{
-                      backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F9FB",
-                    }}
-                  >
+                  <tr key={index}>
                     <td>{index}</td>
-                    <td>{cat.id}</td>
                     <td>{cat.name}</td>
-                    <td>{new Date(cat.creationDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}</td>
-
+                    <td>{cat.id}</td>
                     <td>
-                      <span
-                        className={`${styleCateg.btnCursor} text-warning border-0 `}
+                      {new Date(cat.creationDate).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "short",
+                      })}
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-warning"
                         onClick={() => handleEdit(cat)}
                       >
-                        <i className="fa-solid fa-pen-to-square"></i>
-                      </span>{" "}
+                        Update
+                      </button>{" "}
                       <span className=" mx-2"> </span>
-                      <span
-                       className={`${styleCateg.btnCursor}  text-danger border-0 `}
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleShowDeleteModal(cat)}
 
-                        onClick={() => handleDelete(cat.id)}
                       >
-                        <i className="fa-solid fa-trash"></i>
-                      </span>
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}

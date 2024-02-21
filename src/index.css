@@ -21,6 +21,7 @@ a{
   text-decoration: none;
 }
 
+/* side bar */
 .sidebarCon .ps-sidebar-container  {
   background-color: #1F263E!important;
   color: white;
@@ -53,6 +54,7 @@ justify-content: center;
   border-top-right-radius: 20% !important;
  }
 
+/* side bar */
 
  /* login */
 
@@ -63,9 +65,61 @@ justify-content: center;
   right: 10px; 
   transform: translateY(-50%);
   cursor: pointer;
+
+}
+
+.fa-regular , .fa-eye-slash{
+
+  position: absolute;
+  top: 50%;
+  right: 10px; 
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* end login */
+
+.input-wrapper {
+  position: relative;
 }
 
 
 
+/* Modal */
+.modal-header{
+  border-bottom:none !important;
+}
 
+.btn-update ,.btn-update:hover {
+  background-color: rgb(255,193,7);
+  color: black;
+}
 
+.btn-add ,.btn-add:hover {
+  background-color: #009247 !important;
+  color: white;
+}
+
+/* table in Categories*/
+
+.table {
+
+  --bs-table-bg:none !important;
+  padding: none !important;
+  margin-bottom: 0rem;
+  line-height :5rem;
+}
+
+.tableActive{
+  background-color: #E2E5EB;
+
+  padding-top: 2rem;
+}
+
+tbody, td, tfoot, th, thead, tr {
+  border-color: none;
+   border-style: none;
+
+}
+
+/* end table */

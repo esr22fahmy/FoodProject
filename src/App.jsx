@@ -20,7 +20,7 @@ function App() {
     const TokenAdmin = localStorage.getItem("tokemAdmin");
       const decryToken = jwtDecode(TokenAdmin);
       setDataAdmin(decryToken);
-      console.log(DataAdmin)
+      // console.log(DataAdmin)
 
   };
 

@@ -8,11 +8,8 @@ export default function Recipes() {
       <Header
         className="  text-white"
         title={`Recipes Items`}
-        description={
-          <p>
-           You can now add your items that any user can order it from the Application and you can edit
-          </p>
-        }
+        description={`You can now add your items that any user can order it from the Application and you can edit`}
+
         imgHom={imgRes}
       />{" "}
     </div>
