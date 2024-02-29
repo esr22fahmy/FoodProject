@@ -10,52 +10,45 @@ import { RotatingLines } from "react-loader-spinner";
 
 export default function Login({ FunDataAdmin }) {
   const navigate = useNavigate();
-  const [loadingBtn, setloadingBtn] = useState(false);
+  const [loadingBtn, setLoadingBtn] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
+  // const [validPassword, setValidPassword] = useState(true);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  let {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   // data => شايل data for inputs
   async function onSubmit(data) {
-    setloadingBtn(true);
+    setLoadingBtn(true);
 
     try {
-      let DtaApi = await axios.post(
+      let response = await axios.post(
         "https://upskilling-egypt.com:443/api/v1/Users/Login",
         data
       );
-      // console.log(DtaApi.data.token)
-      let ResultToen = DtaApi.data.token;
-      console.log(ResultToen);
-
-      setTimeout(() => {
-        toast.success("You are login now");
-      }, 1000);
-      localStorage.setItem("tokemAdmin", ResultToen);
+      // console.log(response)
+      let token = response.data.token;
+      localStorage.setItem("tokemAdmin", token);
       FunDataAdmin();
+      toast.success("You are logged in successfully!");
       navigate("/dashboard");
     } catch (error) {
-      // console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      // console.log(error)
+      toast.error(error.message);
     }
-    setloadingBtn(false);
-
-    // console.log(data)
+    setLoadingBtn(false);
   }
 
+ 
+  
   return (
     <>
+    <ToastContainer/>
       <section className={`${styleLogin.secLogin}`}>
-        <ToastContainer />
         <div className="AuthContainer vh-100">
           <div className="AuthLayer vh-100 container-fluid">
             <div className=" row vh-100 justify-content-center  align-items-center">
@@ -117,6 +110,7 @@ export default function Login({ FunDataAdmin }) {
                           //       message:"password Not vaild"
                           // }
                         })}
+                       
                       />
 
                       <i
@@ -132,6 +126,8 @@ export default function Login({ FunDataAdmin }) {
                         </div>
                       )}
                     </div>
+
+
 
                     <div className=" d-flex justify-content-between my-2">
                       <a className=" text-dark">Register Now?</a>

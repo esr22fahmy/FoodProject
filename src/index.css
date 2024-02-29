@@ -25,7 +25,11 @@ a{
 .sidebarCon .ps-sidebar-container  {
   background-color: #1F263E!important;
   color: white;
-  height: 100vh;
+  /* min-height: 100vh !important; */
+  }
+
+  .css-dip3t8 {
+    position: fixed !important;
   }
 
 .sidebarCon .ps-sidebar-container .ps-menu-button:hover{
@@ -47,11 +51,11 @@ justify-content: center;
  }
 
  .sidebarCon .ps-sidebar-container {
-  border-top-right-radius: 20% !important;
+  border-top-right-radius:5rem !important;
  }
 
  .ps-sidebar-root {
-  border-top-right-radius: 20% !important;
+  border-top-right-radius: 5rem !important;
  }
 
 /* side bar */
@@ -123,3 +127,22 @@ tbody, td, tfoot, th, thead, tr {
 }
 
 /* end table */
+
+/* dropdown-menu  at Recipes */
+
+.dropdown-menu {
+  --bs-dropdown-min-width: 0rem !important;
+  width: 10rem !important;
+}
+
+.dropdown-item {
+
+  height: 4rem !important;
+}
+
+
+/* Recipes */
+
+.dropdown-item.active, .dropdown-item:active{
+  background-color: #dfe4ed !important;
+}

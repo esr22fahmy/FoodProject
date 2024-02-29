@@ -8,15 +8,22 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import ImgNotData from "../../../SharedModule/Component/ImgNotData/ImgNotData";
 import imgNoDataImg from "../../../imgs/noData.png";
+import ShareCategories from "../../../SharedModule/Component/CategoriesShare/CategoriesShare"
 
 export default function Categories() {
-  const [CategoriesList, setCategoriesList] = useState([]);
-  const [show, setShow] = useState(false);
+  // const [CategoriesList, setCategoriesList] = useState([]);
   const [editingCategory, setEditingCategory] = useState(null);
   const [newCategoryName, setNewCategoryName] = useState("");
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categoryIdToDelete, setCategoryIdToDelete] = useState(null);
+  // modal
   const [editMode, setEditMode] = useState(false); 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [show, setShow] = useState(false);
+// 
+
+
+  // used custom hook to make the data share
+  const { CategoriesList ,setCategoriesList ,CategoriesShow} = ShareCategories();
 
   const {
     register,
@@ -38,23 +45,23 @@ export default function Categories() {
 
   // show Categories
 
-  const CategoriesShow = async () => {
-    try {
-      let dtaCategories = await axios.get(
-        "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=10&pageNumber=1",
-        {
-          headers: {
-            Authorization: localStorage.getItem("tokemAdmin"),
-          },
-        }
-      );
-      console.log(CategoriesList)
+  // const CategoriesShow = async () => {
+  //   try {
+  //     let dtaCategories = await axios.get(
+  //       "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=10&pageNumber=1",
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("tokemAdmin"),
+  //         },
+  //       }
+  //     );
+  //     // console.log(CategoriesList)
 
-      setCategoriesList(dtaCategories.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     setCategoriesList(dtaCategories.data.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // end show Categories
 
@@ -79,7 +86,9 @@ export default function Categories() {
         handleClose();
         CategoriesShow();
         toast.success("Category updated successfully");
-      } else {
+      } 
+      // add
+      else {
         const newCategory = { name: newCategoryName };
         await axios.post(
           `https://upskilling-egypt.com:443/api/v1/Category/`,
@@ -95,14 +104,13 @@ export default function Categories() {
         toast.success("Category added successfully");
       }
     } catch (error) {
-      console.error("Error updating category:", error);
-      toast.error("Failed to update category");
+      toast.error(error.message);
     }
   };
 
   // end  add and updata
 
-  //handle add and updata
+  //handle  updata
 
   const handleEdit = (category) => {
     setEditingCategory(category);
@@ -112,12 +120,8 @@ export default function Categories() {
     handleShow();
   };
 
-  const handleDelete = (categoryId) => {
-    setShowDeleteModal(true); // Show delete  modal
-    setCategoryIdToDelete(categoryId); // Set the category ID to delete
-  };
 
-  //handle end  add and updata
+  // end handle  updata
 
   // delete
   const deleteCategory = async (categoryId) => {
@@ -133,7 +137,7 @@ export default function Categories() {
       CategoriesShow();
       toast.success("Category deleted successfully");
     } catch (error) {
-      console.error("Error deleting category:", error);
+      // console.log( error);
       toast.error("Failed to delete category");
     }
   };
@@ -142,6 +146,13 @@ export default function Categories() {
     setShowDeleteModal(false); // Close delete modal
     deleteCategory(categoryIdToDelete); // Delete the category
   };
+
+  const handleDelete = (categoryId) => {
+    setShowDeleteModal(true); // Show delete  modal
+    setCategoryIdToDelete(categoryId); // Set the category ID to delete
+  };
+
+
   //end delete
 
   return (
@@ -193,7 +204,6 @@ export default function Categories() {
       >
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body className=" ">
-          {/* Are you sure you want to delete this category? */}
           <div className=" text-center">
             <img src={imgNoDataImg} />
 

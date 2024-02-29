@@ -1,0 +1,18 @@
+.bgHome{
+    background-color: #F0FFEF;
+    padding: 2rem 2.6rem;
+ 
+}
+
+.differentColorCon{
+    color: #009247;
+}
+
+
+
+.btnHome{
+    background-color: #009247 !important;
+    color: white !important;
+    border: none;
+}
+

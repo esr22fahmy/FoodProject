@@ -1,17 +1,228 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../SharedModule/Component/Header/Header";
-import imgRes from "../../../imgs/imgRes.png"
+import imgRes from "../../../imgs/imgRes.png";
+import styleRecipes from "../Recipes/Recipes.module.css";
+import axios from "axios";
+import ImgNotData from "../../../SharedModule/Component/ImgNotData/ImgNotData";
+import DeleteModal from "../../../SharedModule/Component/DeleteModal";
+import { ToastContainer, toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import ShareRecipes from "../../../SharedModule/Component/ShareRecipes/ShareRecipes";
 
 export default function Recipes() {
+  // const [ListRecipes, setListRecipes] = useState([]);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [show, setShow] = useState(false);
+  const [RecipeIdToDelete, setRecipeIdIdToDelete] = useState(null);
+  const [RecipeWord, setRecipeWord] = useState("Recipe");
+
+  // used custom hook to make the data share
+  const { ListRecipes, setListRecipes, getRecipes } = ShareRecipes();
+
+  const navigate = useNavigate();
+
+  // show Recipes
+
+  // let getRecipes = async () => {
+  //   try {
+  //     let { data } = await axios.get(
+  //       "https://upskilling-egypt.com:443/api/v1/Recipe/?pageSize=10&pageNumber=1",
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("tokemAdmin"),
+  //         },
+  //       }
+  //     );
+
+  //     // console.log(data.data)
+  //     setListRecipes(data.data);
+  //     console.log(ListRecipes);
+  //     return {ListRecipes };
+
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+  // -----------------
+
+  // delete
+  useEffect(() => {
+    getRecipes();
+  }, []);
+
+  const deleteRecipe = async (RecipeId) => {
+    try {
+      await axios.delete(
+        `https://upskilling-egypt.com:443/api/v1/Recipe/${RecipeId}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("tokemAdmin"),
+          },
+        }
+      );
+      getRecipes();
+      toast.success("Recipe deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete Recipe");
+    }
+  };
+
+  const confirmDelete = () => {
+    setShowDeleteModal(false);
+    deleteRecipe(RecipeIdToDelete);
+  };
+
+  const handleDelete = (RecipeId) => {
+    setShowDeleteModal(true);
+    setRecipeIdIdToDelete(RecipeId);
+  };
+
+  const handleEdit = (recipe) => {
+    navigate(`/dashboard/recipesData/${recipe.id}`, { state: { recipe } });
+  };
+
+  const handleAddNewItem = () => {
+    // i put null because i put :/id in app
+    navigate("/dashboard/recipesData/null");
+  };
+
   return (
-    <div>
+    <>
+      <ToastContainer />
+      {/* modal for delete */}
+      <DeleteModal
+        RecipeWord={RecipeWord}
+        show={show}
+        confirmDelete={confirmDelete}
+        deleteRecipe={deleteRecipe}
+        showDeleteModal={showDeleteModal}
+        setShowDeleteModal={setShowDeleteModal}
+      />
+      {/*  */}
       <Header
         className="  text-white"
         title={`Recipes Items`}
         description={`You can now add your items that any user can order it from the Application and you can edit`}
-
         imgHom={imgRes}
       />{" "}
-    </div>
+      {/*  */}
+      <div className=" container-fluid  mt-4 ">
+        <div className="   d-flex justify-content-between  px-4 ">
+          <div>
+            <h5> Recipe Table Details</h5>
+            <h6 className=" text-muted">You can check all details</h6>
+          </div>
+          <div>
+            <button
+              onClick={handleAddNewItem}
+              className={`${styleRecipes.btnAdd} btn px-5 py-2`}
+            >
+              Add New Item
+            </button>
+          </div>
+        </div>
+      </div>
+      {/*  */}
+      {/* table */}
+      <div className=" text-center mt-5 mx-4 ">
+        <table className="table ">
+          <thead className="">
+            <tr className="tableActive  ">
+              <th scope="col "> Item Name</th>
+              <th scope="col">Image</th>
+              <th scope="col">Price</th>
+              <th scope="col">Description</th>
+              <th scope="col">Tag</th>
+              <th scope="col">Category</th>
+            </tr>
+          </thead>
+        </table>
+        {ListRecipes.length > 0 ? (
+          <div className="container-fluid ">
+            <table className=" table">
+              <tbody>
+                {ListRecipes.map((rec, index) => (
+                  <tr
+                    key={index}
+                    style={{
+                      backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F9FB",
+                    }}
+                  >
+                    {/* <td>{index}</td> */}
+
+                    <td>{rec.name}</td>
+                    <td className={`${styleRecipes.conImg}`}>
+                      {rec.imagePath ? (
+                        <img
+                          className={`${styleRecipes.imgrec}`}
+                          src={`https://upskilling-egypt.com/${rec.imagePath}`}
+                          alt=""
+                        />
+                      ) : (
+                        <p>Not Img</p>
+                      )}
+                    </td>
+                    <td>{rec.price}</td>
+                    <td>{rec.description}</td>
+                    <td>{rec.id}</td>
+                    <td>{rec.category[0]?.name}</td>
+
+                    <td>
+                      <div className="btn-group">
+                        <span
+                          className="   "
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="fa-solid fa-ellipsis"></i>{" "}
+                        </span>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <span
+                            
+                              onClick={() => handleEdit(rec)}
+                              className="dropdown-item"
+                            >
+                              <span
+                                className={`${styleRecipes.btnCursor}  border-0 px-2`}
+                              >
+                                <i className="fa-solid fa-pen-to-square text-warning me-1">
+                                  {" "}
+                                </i>
+                                Edit
+                              </span>{" "}
+                            </span>
+                          </li>
+                          <li>
+                            <span
+
+                              onClick={() => handleDelete(rec.id)}
+                              className="dropdown-item"
+                            >
+                              <span
+                                className={`${styleRecipes.btnCursor}   border-0  px-2`}
+                              >
+                                <i className="fa-solid fa-trash text-danger me-1"></i>
+                                Delete
+                              </span>{" "}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <>
+            <ImgNotData />
+          </>
+        )}
+      </div>
+    </>
   );
 }

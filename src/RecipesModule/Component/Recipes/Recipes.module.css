@@ -1,0 +1,27 @@
+.btnAdd{
+    background-color: #009247 !important;
+    color: white !important;
+}
+
+.conImg{
+    width: 15%;
+}
+
+.imgrec{
+    width: 40%;
+    border-radius: 10%;
+}
+
+
+.btnCursor{
+    cursor: pointer;
+    color: #1F263E;
+}
+
+
+/* RecipesData  */
+
+.inputs{
+
+    background-color: #F7F7F7 !important;
+}

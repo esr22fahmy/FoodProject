@@ -12,6 +12,7 @@ import NotFound from './SharedModule/Component/NotFound/NotFound';
 import { jwtDecode } from 'jwt-decode';
 import ProducteRoute from './SharedModule/Component/ProducteRoute/ProducteRoute';
 import ResetPass from './AuthModule/Component/ResetPass/ResetPass';
+import RecipesData from './RecipesModule/Component/Recipes/RecipesData';
 
 function App() {
   const [DataAdmin, setDataAdmin] = useState(null);
@@ -49,6 +50,7 @@ function App() {
         { index: true, element: <Home  DataAdmin={DataAdmin}/> },
         { path: 'home', element: <Home  DataAdmin={DataAdmin}/> },
         { path: 'recipes', element: <Recipes/> },
+        { path: 'recipesData/:recipeId', element: <RecipesData/> },
         { path: 'user', element: <User /> },
         { path: 'categories', element: <Categories /> },
       ]
