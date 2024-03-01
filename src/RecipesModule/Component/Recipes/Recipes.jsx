@@ -17,6 +17,9 @@ export default function Recipes() {
   const [RecipeIdToDelete, setRecipeIdIdToDelete] = useState(null);
   const [RecipeWord, setRecipeWord] = useState("Recipe");
 
+
+  // const [test, setTest] = useState("edit");
+
   // used custom hook to make the data share
   const { ListRecipes, setListRecipes, getRecipes } = ShareRecipes();
 
@@ -68,11 +71,14 @@ export default function Recipes() {
     }
   };
 
+  // delete item
   const confirmDelete = () => {
     setShowDeleteModal(false);
     deleteRecipe(RecipeIdToDelete);
   };
 
+
+  // when i onclick delete show me modal delete
   const handleDelete = (RecipeId) => {
     setShowDeleteModal(true);
     setRecipeIdIdToDelete(RecipeId);
@@ -80,6 +86,11 @@ export default function Recipes() {
 
   const handleEdit = (recipe) => {
     navigate(`/dashboard/recipesData/${recipe.id}`, { state: { recipe } });
+
+    // console.log(recipe)
+    // console.log("edittt")
+    // setTest()
+
   };
 
   const handleAddNewItem = () => {
@@ -181,7 +192,6 @@ export default function Recipes() {
                         <ul className="dropdown-menu">
                           <li>
                             <span
-                            
                               onClick={() => handleEdit(rec)}
                               className="dropdown-item"
                             >
@@ -197,7 +207,7 @@ export default function Recipes() {
                           </li>
                           <li>
                             <span
-
+                            
                               onClick={() => handleDelete(rec.id)}
                               className="dropdown-item"
                             >

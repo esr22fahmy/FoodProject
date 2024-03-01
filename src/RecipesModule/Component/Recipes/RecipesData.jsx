@@ -15,11 +15,18 @@ export default function RecipesData() {
   const { ListRecipes, getRecipes } = ShareRecipes();
   const { CategoriesList } = ShareCategories();
   const location = useLocation();
+  // console.log(location)
   // const { recipe } = location.state;
   const navigate = useNavigate();
   const recipe = location.state && location.state.recipe ? location.state.recipe : null;
+  // change button
+  const [isEditing, setIsEditing] = useState(false);
+
+  // console.log(recipe)
 
   useEffect(() => {
+    setIsEditing(recipe !== null);
+
     if (recipe) {
       setValue("name", recipe.name);
       setValue("price", recipe.price);
@@ -53,7 +60,7 @@ export default function RecipesData() {
           }
         );
         toast.success(response.data.message);
-        console.log(response)
+        // console.log(response)
 
       } else {
         response = await axios.post(
@@ -66,7 +73,7 @@ export default function RecipesData() {
             },
           }
         );
-        console.log(response.data.message)
+        // console.log(response.data.message)
 
         toast.success(response.data.message);
 
@@ -142,6 +149,10 @@ export default function RecipesData() {
                 required: "price Address is required",
               })}
             />
+               <span
+                        className={`${styleRecipes.PriceEGP}`}
+                        
+                      >EGP</span>
             {errors.price && (
               <div className="alert alert-danger  d-inline-block w-100 mt-1">
                 {errors.price.message}
@@ -208,10 +219,13 @@ export default function RecipesData() {
             )}
           </div>
 
+
+
           <div className="text-end">
 
-          <button className="   btn btn-success">Save </button>
-
+          <button className={`btn ${isEditing ? "btn-warning" : "btn-success"}`}>
+              {isEditing ? "Edit" : "Save"}
+            </button>
           </div>
 
         </form>

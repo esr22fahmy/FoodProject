@@ -25,3 +25,24 @@
 
     background-color: #F7F7F7 !important;
 }
+
+.btnYellow {
+    background-color: yellow !important;
+    color: black !important; 
+  }
+
+
+  .PriceEGP {
+    position: absolute;
+    top: 50%;
+    right: 10px; 
+    transform: translateY(-50%);
+    cursor: pointer;
+  
+  }
+  
+ 
+
+  /*  */
+
+
