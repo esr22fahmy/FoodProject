@@ -12,51 +12,50 @@ import ShareCategories from "../../../SharedModule/Component/CategoriesShare/Cat
 import { useForm } from "react-hook-form";
 import TagIdShare from "../../../SharedModule/Component/TagIdShare/TagIdShare";
 
-
 export default function Recipes() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [show, setShow] = useState(false);
   const [RecipeIdToDelete, setRecipeIdIdToDelete] = useState(null);
   const [RecipeWord, setRecipeWord] = useState("Recipe");
+  const [currentPage, setCurrentPage] = useState(1); // State variable to track current page
 
   // used custom hook to make the data share
-  const { ListRecipes, setListRecipes, getRecipes } = ShareRecipes();
-  const { CategoriesList } = ShareCategories();
-   // tagId
-   const { isTag, setisTag } = TagIdShare();
+  const { ListRecipes, setListRecipes, getRecipes, getPages } = ShareRecipes();
 
+  console.log(ListRecipes);
+  const { CategoriesList } = ShareCategories();
+  // tagId
+  const { isTag, setisTag } = TagIdShare();
+  // search fillter
+  const [nameSearch, setnameSearch] = useState("");
+  const [selectTagId, setselectTagId] = useState(0);
+  const [selectCatID, setselectCatID] = useState(0);
+  //
 
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm();
 
-  // show Recipes
-
-  // let getRecipes = async () => {
-  //   try {
-  //     let { data } = await axios.get(
-  //       "https://upskilling-egypt.com:443/api/v1/Recipe/?pageSize=10&pageNumber=1",
-  //       {
-  //         headers: {
-  //           Authorization: localStorage.getItem("tokemAdmin"),
-  //         },
-  //       }
-  //     );
-
-  //     // console.log(data.data)
-  //     setListRecipes(data.data);
-  //     console.log(ListRecipes);
-  //     return {ListRecipes };
-
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-  // -----------------
-
-  // delete
   useEffect(() => {
-    getRecipes();
-  }, []);
+    getRecipes(currentPage, 10);
+  }, [currentPage]);
+
+  //  handle Previous button click
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  // handle Next button click
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
   const deleteRecipe = async (RecipeId) => {
     try {
@@ -101,6 +100,24 @@ export default function Recipes() {
     navigate("/dashboard/recipesData/null");
   };
 
+  // for search
+
+  let getNameValue = (input) => {
+    setnameSearch(input.target.value);
+    getRecipes(1, 10, input.target.value, selectTagId, selectCatID);
+  };
+
+  // tag
+  let getTag = (tag) => {
+    setselectTagId(tag.target.value);
+    getRecipes(1, 10, nameSearch, tag.target.value, selectCatID);
+  };
+
+  // Categories
+  let getCate = (cat) => {
+    setselectCatID(cat.target.value);
+    getRecipes(1, 10, nameSearch, selectTagId, cat.target.value);
+  };
   return (
     <>
       {/* modal for delete */}
@@ -140,58 +157,46 @@ export default function Recipes() {
       <div className=" container">
         <div className=" row p-4 ">
           <div className=" col-md-6">
-            <input
-              className="form-control"
-              type="search"
-              placeholder="Search..."
-            />
+            <div className="form-group has-search">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search"
+                onChange={getNameValue}
+              />
+            </div>
           </div>
-
+          {/*Tag  */}
           <div className=" col-md-3">
-          <div className="input-group mb-3">
-            <select
-              {...register("tagId", {
-                required: "tagId Id Address is required",
-              })}
-              className={`${styleRecipes.inputs} form-select`}
-            >
-              {isTag?.map((rec, index) => (
-                <option key={index} value= {rec.id}
-                >
-                  {rec.name}
-                </option>
-              ))}
-            </select>
-            {errors.tagId && (
-              <div className="alert alert-danger  d-inline-block w-100 mt-1">
-                {errors.tagId.message}
-              </div>
-            )}
+            <div className="input-group mb-3">
+              <select
+                className={`${styleRecipes.inputs} form-select`}
+                onChange={getTag}
+              >
+                <option value="">Search by Tag</option>
+                {isTag?.map((rec, index) => (
+                  <option key={index} value={rec.id}>
+                    {rec.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          </div>
-
+          {/* Categories */}
           <div className=" col-md-3">
-          <div className="input-group mb-3">
-            <select
-               className={`${styleRecipes.inputs} form-select`}
-              {...register("categoriesIds", {
-                required: "categories Id Address is required",
-              })}
-              // aria-label="Default select example"
-            >
-              {/* <option selected>Tag</option> */}
-              {CategoriesList?.map((rec, index) => (
-                <option key={index} value={rec.id}>
-                  {rec.name}
-                </option>
-              ))}
-            </select>
-            {errors.categoriesIds && (
-              <div className="alert alert-danger  d-inline-block w-100 mt-1">
-                {errors.categoriesIds.message}
-              </div>
-            )}
-          </div>
+            <div className="input-group mb-3">
+              <select
+                className={`${styleRecipes.inputs} form-select`}
+                onChange={getCate}
+              >
+                <option value="">Search by Categories</option>
+                {CategoriesList?.map((rec, index) => (
+                  <option key={index} value={rec.id}>
+                    {rec.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -286,6 +291,40 @@ export default function Recipes() {
                 ))}
               </tbody>
             </table>
+
+            <nav aria-label="Page navigation example">
+              <ul className="pagination">
+                <li className="page-item">
+                  <button
+                    className="page-link"
+                    onClick={handlePreviousPage}
+                    aria-label="Previous"
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                  </button>
+                </li>
+
+                {getPages.map((pageNu, index) => (
+                  <li
+                    key={index}
+                    className="page-item"
+                    onClick={() => getRecipes(pageNu, 10)}
+                  >
+                    <a className="page-link">{pageNu}</a>
+                  </li>
+                ))}
+
+                <li className="page-item">
+                  <button
+                    className="page-link"
+                    onClick={handleNextPage}
+                    aria-label="Next"
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </div>
         ) : (
           <>

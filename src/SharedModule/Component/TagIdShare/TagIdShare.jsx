@@ -17,7 +17,7 @@ const TagIdShare = () => {
         }
       );
       setisTag(tagList.data);
-      console.log(tagList.data)
+    //   console.log(tagList.data)
 
     } catch (error) {
       console.log(error.message);

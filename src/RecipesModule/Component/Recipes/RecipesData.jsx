@@ -17,7 +17,7 @@ export default function RecipesData() {
   // tagId
   const { isTag, setisTag } = TagIdShare();
 
-  console.log(ListRecipes)
+  // console.log(ListRecipes)
   const { CategoriesList } = ShareCategories();
   const location = useLocation();
   // console.log(location)
@@ -41,7 +41,9 @@ export default function RecipesData() {
       setValue("price", recipe.price);
       setValue("description", recipe.description); 
       setValue("tagId", recipe.tag.id); 
-      setValue("categoriesIds", recipe.category.id); 
+      setValue("categoriesIds", recipe.category[0].id); 
+      // console.log(   "ccc",   setValue("categoriesIds", recipe.category[0].id)
+      // )
       setValue("recipeImage", recipe.recipeImage?.[0]); 
 
     }
@@ -163,6 +165,8 @@ export default function RecipesData() {
               })}
               className={`${styleRecipes.inputs} form-select`}
             >
+                            {/* <option value=''>Tag</option> */}
+
               {isTag?.map((rec, index) => (
                 <option key={index} value= {rec.id}
                 >
@@ -207,7 +211,7 @@ export default function RecipesData() {
               })}
               // aria-label="Default select example"
             >
-              {/* <option selected>Tag</option> */}
+              {/* <option value=''>categories</option> */}
               {CategoriesList?.map((rec, index) => (
                 <option key={index} value={rec.id}>
                   {rec.name}
@@ -247,7 +251,7 @@ export default function RecipesData() {
             <input
               className={`${styleRecipes.inputs} form-control`}
               type="file"
-              // {...register("recipeImage", {
+              // {...register("recipeImage")}
               //   required: "recipeImage is required",
               // })}
             />
