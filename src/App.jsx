@@ -13,6 +13,9 @@ import { jwtDecode } from 'jwt-decode';
 import ProducteRoute from './SharedModule/Component/ProducteRoute/ProducteRoute';
 import ResetPass from './AuthModule/Component/ResetPass/ResetPass';
 import RecipesData from './RecipesModule/Component/Recipes/RecipesData';
+import Register from './AuthModule/Component/Register/Register';
+import { ToastContainer } from "react-toastify";
+import VerifyRegister from './AuthModule/Component/VerifyRegister/VerifyRegister';
 
 function App() {
   const [DataAdmin, setDataAdmin] = useState(null);
@@ -40,6 +43,10 @@ function App() {
         { path: 'login', element: <Login FunDataAdmin={FunDataAdmin}/> },
         { path: 'forgetPass', element: <ForgetPass /> },
         { path: 'resetPass', element: <ResetPass /> },
+        { path: 'register', element: <Register /> },
+        { path: 'verifyRegister', element: <VerifyRegister/> },
+
+
 
       ],
     },
@@ -58,7 +65,17 @@ function App() {
   ]);
 
   return (
-    <RouterProvider router={routers} />
+   <>
+   
+   <ToastContainer/>
+<RouterProvider router={routers} />
+   
+   
+   
+   
+   
+   
+   </>
   );
 }
 

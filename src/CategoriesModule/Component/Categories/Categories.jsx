@@ -11,7 +11,6 @@ import imgNoDataImg from "../../../imgs/noData.png";
 import ShareCategories from "../../../SharedModule/Component/CategoriesShare/CategoriesShare"
 
 export default function Categories() {
-  // const [CategoriesList, setCategoriesList] = useState([]);
   const [editingCategory, setEditingCategory] = useState(null);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [categoryIdToDelete, setCategoryIdToDelete] = useState(null);
@@ -43,27 +42,6 @@ export default function Categories() {
   const handleShow = () => setShow(true);
   // end modals
 
-  // show Categories
-
-  // const CategoriesShow = async () => {
-  //   try {
-  //     let dtaCategories = await axios.get(
-  //       "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=10&pageNumber=1",
-  //       {
-  //         headers: {
-  //           Authorization: localStorage.getItem("tokemAdmin"),
-  //         },
-  //       }
-  //     );
-  //     // console.log(CategoriesList)
-
-  //     setCategoriesList(dtaCategories.data.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // end show Categories
 
   useEffect(() => {
     CategoriesShow();
@@ -73,6 +51,7 @@ export default function Categories() {
   const submitEdit = async (data) => {
     try {
       if (editingCategory) {
+        console.log(editingCategory)
         const updatedCategory = { ...editingCategory, name: newCategoryName };
         await axios.put(
           `https://upskilling-egypt.com:443/api/v1/Category/${updatedCategory.id}`,

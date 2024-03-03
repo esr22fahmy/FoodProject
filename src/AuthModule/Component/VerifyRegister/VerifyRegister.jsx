@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styleLogin from "../Login/Login.module.css";
 import imgLogo from "../../../imgs/logoLogin.svg";
 import { useForm } from "react-hook-form";
@@ -7,48 +7,43 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RotatingLines } from "react-loader-spinner";
-
-export default function Login({ FunDataAdmin }) {
+export default function VerifyRegister() {
   const navigate = useNavigate();
-  const [loadingBtn, setLoadingBtn] = useState(false);
+  const [loadingBtn, setloadingBtn] = useState(false);
 
-  const [showPassword, setShowPassword] = useState(false);
-  // const [validPassword, setValidPassword] = useState(true);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
-  };
-
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  let {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   // data => شايل data for inputs
   async function onSubmit(data) {
-    setLoadingBtn(true);
 
     try {
-      let response = await axios.post(
-        "https://upskilling-egypt.com:443/api/v1/Users/Login",
+      let DtaApi = await axios.put(
+        "https://upskilling-egypt.com:443/api/v1/Users/verify",
         data
       );
-      // console.log(response)
-      let token = response.data.token;
-      localStorage.setItem("tokemAdmin", token);
-      FunDataAdmin();
-      toast.success("You are logged in successfully!");
-      navigate("/dashboard");
-    } catch (error) {
-      // console.log(error)
-      toast.error(error.message);
-    }
-    setLoadingBtn(false);
-  }
+      // console.log(DtaApi.data.token)
+      let ResultToen = DtaApi.data.token;
+      // console.log(ResultToen);
 
- 
-  
+      setTimeout(() => {
+        toast.success("Your code is correct");
+      }, 1000);
+      navigate("/login");
+    } catch (error) {
+      // console.log(error.response.data.message);
+      toast.error(error.response.data.message);
+    }
+    setloadingBtn(false);
+
+    // console.log(data)
+  }
   return (
     <>
-        <ToastContainer/>
-
+      <ToastContainer />
       <section className={`${styleLogin.secLogin}`}>
         <div className="AuthContainer vh-100">
           <div className="AuthLayer vh-100 container-fluid">
@@ -59,9 +54,9 @@ export default function Login({ FunDataAdmin }) {
                     <img className=" w-50 " src={imgLogo} alt=" logo food" />
                   </div>
 
-                  <h5>Log In </h5>
+                  <h5> verify account </h5>
                   <p className=" text-muted">
-                    Welcome Back! Please enter your details
+                    Please Enter Your Code or Check Your Inbox
                   </p>
 
                   <form onSubmit={handleSubmit(onSubmit)}>
@@ -70,14 +65,14 @@ export default function Login({ FunDataAdmin }) {
                         className={`${styleLogin.IconInput} input-group-text`}
                         id="basic-addon1"
                       >
-                        <i className="fa-solid fa-mobile-screen-button"></i>
+                        <i className="fa-solid fa-envelope"></i>
                       </span>
                       <input
                         className={`${styleLogin.InputLogin} form-control`}
                         type="email"
-                        placeholder="Enter Your E-mail"
+                        placeholder=" E-mail"
                         {...register("email", {
-                          required: "Email Address is required",
+                          required: "Email is required",
                           pattern: {
                             value: /[A-Za-z0-9._%+-]+@(gmail|yahoo|email)\.com/,
                             message: "Email Not vaild",
@@ -91,7 +86,7 @@ export default function Login({ FunDataAdmin }) {
                       )}
                     </div>
 
-                    {/* password */}
+                    {/* code */}
 
                     <div className="input-group mb-3">
                       <span
@@ -101,43 +96,23 @@ export default function Login({ FunDataAdmin }) {
                         <i className="fa-solid fa-lock"></i>
                       </span>
                       <input
-                        className={`${styleLogin.InputLoginPass} form-control`}
-                        type={showPassword ? "text" : "password"}
-                        placeholder="password  "
-                        {...register("password", {
-                          required: "password is required ",
-                          //     pattern:{
-                          //       value: /^[a-zA-Z]{4}\d{1,5}$/,
-                          //       message:"password Not vaild"
-                          // }
+                        className={`${styleLogin.InputLogin} form-control`}
+                        type="text"
+                        placeholder="code"
+                        {...register("code", {
+                          required: "code is required",
                         })}
-                       
                       />
-
-                      <i
-                        className={`fa-regular fa-eye${
-                          showPassword ? "-slash" : ""
-                        }`}
-                        onClick={togglePasswordVisibility}
-                      ></i>
-
-                      {errors.password && (
+                      {errors.code && (
                         <div className="alert alert-danger  d-inline-block w-100 mt-1">
-                          {errors.password.message}
+                          {errors.code.message}
                         </div>
                       )}
                     </div>
 
+                
 
-
-                    <div className=" d-flex justify-content-between my-2">
-                      <Link to="/register" className=" text-dark">
-                      Register Now? 
-                       </Link>
-                      <Link to="/forgetPass" className=" text-success">
-                        Forgot Password?
-                      </Link>
-                    </div>
+                 
 
                     <button className=" w-100 btn btn-success">
                       {" "}
@@ -154,7 +129,7 @@ export default function Login({ FunDataAdmin }) {
                           wrapperClass=""
                         />
                       ) : (
-                        "Login"
+                        "Submit"
                       )}
                     </button>
                   </form>
@@ -163,7 +138,7 @@ export default function Login({ FunDataAdmin }) {
             </div>
           </div>
         </div>
-      </section>
+      </section>{" "}
     </>
   );
 }

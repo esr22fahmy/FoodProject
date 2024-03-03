@@ -8,15 +8,21 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from 'react-router-dom';
 import {  useNavigate } from "react-router-dom";
+import TagIdShare from "../../../SharedModule/Component/TagIdShare/TagIdShare";
 
 
 export default function RecipesData() {
   const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
   const { ListRecipes, getRecipes } = ShareRecipes();
+  // tagId
+  const { isTag, setisTag } = TagIdShare();
+
+  console.log(ListRecipes)
   const { CategoriesList } = ShareCategories();
   const location = useLocation();
   // console.log(location)
   // const { recipe } = location.state;
+
   const navigate = useNavigate();
   const recipe = location.state && location.state.recipe ? location.state.recipe : null;
   // change button
@@ -28,12 +34,16 @@ export default function RecipesData() {
     setIsEditing(recipe !== null);
 
     if (recipe) {
+      // console.log(recipe)
+      
+      // give me value in inputs and put them in (name,price,description,tagId,categoriesIds ,recipeImage) for api
       setValue("name", recipe.name);
       setValue("price", recipe.price);
       setValue("description", recipe.description); 
-      setValue("tagId", recipe.tagId); 
-      setValue("categoriesIds", recipe.categoriesIds); 
+      setValue("tagId", recipe.tag.id); 
+      setValue("categoriesIds", recipe.category.id); 
       setValue("recipeImage", recipe.recipeImage?.[0]); 
+
     }
   }, [recipe, setValue]);
 
@@ -46,6 +56,9 @@ export default function RecipesData() {
       formData.append("tagId", data.tagId);
       formData.append("categoriesIds", data.categoriesIds);
       formData.append("recipeImage", data.recipeImage?.[0]);
+      console.log(formData.append("recipeImage", data.recipeImage?.[0])
+      
+      )
 
       let response;
       if (recipe && recipe.id) {
@@ -86,11 +99,39 @@ export default function RecipesData() {
       // console.log(error);
       toast.error(error);
     }
+
+    // console.log(data)
   };
+
+
+
+  // const getTag = async () => {
+  //   try {
+  //     let tagList = await axios.get(
+  //       "https://upskilling-egypt.com:443/api/v1/tag/",
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("tokemAdmin"),
+  //         },
+  //       }
+  //     );
+  //     setisTag(tagList.data);
+  //     console.log(tagList.data)
+
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getTag();
+  //   // console.log(isTag)
+
+  // }, []);
 
   return (
     <>
-         <ToastContainer />
+    <ToastContainer/>
       <RecipsHeader />
 
       <div className=" container mb-5">
@@ -121,13 +162,11 @@ export default function RecipesData() {
                 required: "tagId Id Address is required",
               })}
               className={`${styleRecipes.inputs} form-select`}
-              aria-label="Default select example"
             >
-              {/* <option selected>Tag</option> */}
-              {ListRecipes?.map((rec, index) => (
-                <option key={index} value= {rec.tag.id}
+              {isTag?.map((rec, index) => (
+                <option key={index} value= {rec.id}
                 >
-                  {rec.tag.id}
+                  {rec.name}
                 </option>
               ))}
             </select>
@@ -162,11 +201,11 @@ export default function RecipesData() {
           {/* categoriesIds */}
           <div className="input-group mb-3">
             <select
+               className={`${styleRecipes.inputs} form-select`}
               {...register("categoriesIds", {
                 required: "categories Id Address is required",
               })}
-              className={`${styleRecipes.inputs} form-select`}
-              aria-label="Default select example"
+              // aria-label="Default select example"
             >
               {/* <option selected>Tag</option> */}
               {CategoriesList?.map((rec, index) => (

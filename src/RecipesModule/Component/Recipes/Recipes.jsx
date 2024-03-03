@@ -8,22 +8,26 @@ import DeleteModal from "../../../SharedModule/Component/DeleteModal";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import ShareRecipes from "../../../SharedModule/Component/ShareRecipes/ShareRecipes";
+import ShareCategories from "../../../SharedModule/Component/CategoriesShare/CategoriesShare";
+import { useForm } from "react-hook-form";
+import TagIdShare from "../../../SharedModule/Component/TagIdShare/TagIdShare";
+
 
 export default function Recipes() {
-  // const [ListRecipes, setListRecipes] = useState([]);
-
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [show, setShow] = useState(false);
   const [RecipeIdToDelete, setRecipeIdIdToDelete] = useState(null);
   const [RecipeWord, setRecipeWord] = useState("Recipe");
 
-
-  // const [test, setTest] = useState("edit");
-
   // used custom hook to make the data share
   const { ListRecipes, setListRecipes, getRecipes } = ShareRecipes();
+  const { CategoriesList } = ShareCategories();
+   // tagId
+   const { isTag, setisTag } = TagIdShare();
+
 
   const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
 
   // show Recipes
 
@@ -64,6 +68,7 @@ export default function Recipes() {
           },
         }
       );
+      console.log(deleteRecipe);
       getRecipes();
       toast.success("Recipe deleted successfully");
     } catch (error) {
@@ -77,7 +82,6 @@ export default function Recipes() {
     deleteRecipe(RecipeIdToDelete);
   };
 
-
   // when i onclick delete show me modal delete
   const handleDelete = (RecipeId) => {
     setShowDeleteModal(true);
@@ -90,7 +94,6 @@ export default function Recipes() {
     // console.log(recipe)
     // console.log("edittt")
     // setTest()
-
   };
 
   const handleAddNewItem = () => {
@@ -100,7 +103,6 @@ export default function Recipes() {
 
   return (
     <>
-      <ToastContainer />
       {/* modal for delete */}
       <DeleteModal
         RecipeWord={RecipeWord}
@@ -131,6 +133,65 @@ export default function Recipes() {
             >
               Add New Item
             </button>
+          </div>
+        </div>
+      </div>
+      {/* fillter */}
+      <div className=" container">
+        <div className=" row p-4 ">
+          <div className=" col-md-6">
+            <input
+              className="form-control"
+              type="search"
+              placeholder="Search..."
+            />
+          </div>
+
+          <div className=" col-md-3">
+          <div className="input-group mb-3">
+            <select
+              {...register("tagId", {
+                required: "tagId Id Address is required",
+              })}
+              className={`${styleRecipes.inputs} form-select`}
+            >
+              {isTag?.map((rec, index) => (
+                <option key={index} value= {rec.id}
+                >
+                  {rec.name}
+                </option>
+              ))}
+            </select>
+            {errors.tagId && (
+              <div className="alert alert-danger  d-inline-block w-100 mt-1">
+                {errors.tagId.message}
+              </div>
+            )}
+          </div>
+          </div>
+
+          <div className=" col-md-3">
+          <div className="input-group mb-3">
+            <select
+               className={`${styleRecipes.inputs} form-select`}
+              {...register("categoriesIds", {
+                required: "categories Id Address is required",
+              })}
+              // aria-label="Default select example"
+            >
+              {/* <option selected>Tag</option> */}
+              {CategoriesList?.map((rec, index) => (
+                <option key={index} value={rec.id}>
+                  {rec.name}
+                </option>
+              ))}
+            </select>
+            {errors.categoriesIds && (
+              <div className="alert alert-danger  d-inline-block w-100 mt-1">
+                {errors.categoriesIds.message}
+              </div>
+            )}
+          </div>
           </div>
         </div>
       </div>
@@ -207,7 +268,6 @@ export default function Recipes() {
                           </li>
                           <li>
                             <span
-                            
                               onClick={() => handleDelete(rec.id)}
                               className="dropdown-item"
                             >

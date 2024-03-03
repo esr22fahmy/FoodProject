@@ -6,3 +6,8 @@
     width: 40%;
     border-radius: 10%;
 }
+
+
+.btnCursor{
+    cursor: pointer;
+}
