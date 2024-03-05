@@ -10,12 +10,12 @@ export default function MasterLayout({DataAdmin}) {
   
           <div className=' d-flex'>
           <div className=''>
-            <SideBar/>
+            <SideBar DataAdmin={DataAdmin}/>
           </div>
           <div className='w-100'>
             <Navbar DataAdmin={DataAdmin} />
             {/* <Header  DataAdmin={DataAdmin}/> */}
-            <Outlet/>
+            <Outlet DataAdmin={DataAdmin}/>
           </div>
        
 

@@ -4,6 +4,7 @@ import axios from "axios";
 const ShareRecipes = () => {
   const [ListRecipes, setListRecipes] = useState([]);
   const [getPages, setgetPages] = useState(0);
+  
 
   const getRecipes = async (pageNu, pageSize, name, tagId, CatId) => {
     try {
@@ -28,7 +29,7 @@ const ShareRecipes = () => {
       
       setgetPages(pagesArray);
       setListRecipes(data.data);
-      console.log(data.totalNumberOfPages);
+      // console.log(data.totalNumberOfPages);
     } catch (error) {
       console.log(error.message);
     }

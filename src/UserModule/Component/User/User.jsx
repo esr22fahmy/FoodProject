@@ -71,6 +71,14 @@ export default function User() {
     setUserIdToDelete(UseryId);
   };
 
+    // for search
+
+    let getNameValue = (input) => {
+      setnameSearch(input.target.value);
+      CategoriesShow(1, 10, input.target.value);
+    };
+  
+
   return (
     <>
 
@@ -117,6 +125,23 @@ export default function User() {
           <p> You can check all details</p>
         </div>
       </div>
+
+         {/* fillter */}
+         <div className=" container">
+        <div className=" row p-4 ">
+          <div className=" col-md-12">
+            <div className="form-group has-search">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search"
+                onChange={getNameValue}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*  */}
       {/* table */}
       <div className=" text-center mt-5 mx-4 ">
         <table className="table ">

@@ -25,12 +25,12 @@ a{
 .sidebarCon .ps-sidebar-container  {
   background-color: #1F263E!important;
   color: white;
-  /* min-height: 100vh !important; */
+  /* height: 100% !important; */
   }
 
-  .css-dip3t8 {
+  /* .css-dip3t8 {
     position: fixed !important;
-  }
+  } */
 
 .sidebarCon .ps-sidebar-container .ps-menu-button:hover{
 
@@ -57,6 +57,23 @@ justify-content: center;
  .ps-sidebar-root {
   border-top-right-radius: 5rem !important;
  }
+
+
+ .sidebar-container{
+  height: 100% !important;
+ }
+
+
+ .css-1wvake5{
+  height: 100% !important;
+
+ }
+ .sidebar-container {
+  height: 100% !important;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
 
 /* side bar */
 
@@ -148,4 +165,13 @@ tbody, td, tfoot, th, thead, tr {
 }
 
 
+/* favorites  */
 
+.card-img, .card-img-top{
+height: 18rem
+}
+
+.imgFav{
+  height: 18rem
+
+}

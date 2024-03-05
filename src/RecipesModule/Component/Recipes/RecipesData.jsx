@@ -58,9 +58,9 @@ export default function RecipesData() {
       formData.append("tagId", data.tagId);
       formData.append("categoriesIds", data.categoriesIds);
       formData.append("recipeImage", data.recipeImage?.[0]);
-      console.log(formData.append("recipeImage", data.recipeImage?.[0])
+      console.log( data.recipeImage?.[0])
       
-      )
+      
 
       let response;
       if (recipe && recipe.id) {
@@ -251,15 +251,15 @@ export default function RecipesData() {
             <input
               className={`${styleRecipes.inputs} form-control`}
               type="file"
-              // {...register("recipeImage")}
+              {...register("recipeImage")}
               //   required: "recipeImage is required",
               // })}
             />
-            {errors.recipeImage && (
+            {/* {errors.recipeImage && (
               <div className="alert alert-danger  d-inline-block w-100 mt-1">
                 {errors.recipeImage.message}
               </div>
-            )}
+            )} */}
           </div>
 
 

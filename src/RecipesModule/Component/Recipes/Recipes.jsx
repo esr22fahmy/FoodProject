@@ -11,18 +11,22 @@ import ShareRecipes from "../../../SharedModule/Component/ShareRecipes/ShareReci
 import ShareCategories from "../../../SharedModule/Component/CategoriesShare/CategoriesShare";
 import { useForm } from "react-hook-form";
 import TagIdShare from "../../../SharedModule/Component/TagIdShare/TagIdShare";
+import imgError from "../../../imgs/false-2061131_1280.png";
 
 export default function Recipes() {
+  // console.log(JSON.parse(localStorage.getItem("dataLogin")));
+  let loginData = JSON.parse(localStorage.getItem("dataLogin"));
+  //
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [show, setShow] = useState(false);
   const [RecipeIdToDelete, setRecipeIdIdToDelete] = useState(null);
   const [RecipeWord, setRecipeWord] = useState("Recipe");
-  const [currentPage, setCurrentPage] = useState(1); // State variable to track current page
+  const [currentPage, setCurrentPage] = useState(1);
 
   // used custom hook to make the data share
   const { ListRecipes, setListRecipes, getRecipes, getPages } = ShareRecipes();
 
-  console.log(ListRecipes);
+  // console.log(ListRecipes);
   const { CategoriesList } = ShareCategories();
   // tagId
   const { isTag, setisTag } = TagIdShare();
@@ -31,8 +35,34 @@ export default function Recipes() {
   const [selectTagId, setselectTagId] = useState(0);
   const [selectCatID, setselectCatID] = useState(0);
   //
-
   const navigate = useNavigate();
+// 
+
+
+const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+const [recipeIdToAddToFavorites, setRecipeIdToAddToFavorites] = useState(null);
+
+
+
+const favoritesItem =async(RecipeId)=>{
+  try {
+  let favor=  await axios.post(
+      `https://upskilling-egypt.com:443/api/v1/userRecipe/`,
+      {"recipeId":RecipeId},
+      {
+        headers: {
+          Authorization: localStorage.getItem("tokemAdmin"),
+        },
+      }
+    );
+    console.log(favor);
+    toast.success("Add favorite Recipesuccessfully");
+  } catch (error) {
+    toast.error("Failed to add favorite Recipe ");
+  }
+
+}
+// end favorites
   const {
     register,
     handleSubmit,
@@ -56,6 +86,8 @@ export default function Recipes() {
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
+
+  // delet
 
   const deleteRecipe = async (RecipeId) => {
     try {
@@ -118,8 +150,45 @@ export default function Recipes() {
     setselectCatID(cat.target.value);
     getRecipes(1, 10, nameSearch, selectTagId, cat.target.value);
   };
+
+  // 
+
+  // ...
+
+  const handleAddToFavorites = (recipeId) => {
+    setRecipeIdToAddToFavorites(recipeId);
+    setShowConfirmationModal(true);
+  };
+
+  const confirmAddToFavorites = async () => {
+    const getFav = localStorage.getItem('favRecipes')
+    let favList = []
+    try {
+        await favoritesItem(recipeIdToAddToFavorites);
+        let getItem=  await axios.get(
+          `https://upskilling-egypt.com/api/v1/Recipe/${recipeIdToAddToFavorites}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("tokemAdmin"),
+            },
+          }
+        );
+        if (getFav != null) {
+          favList.push(...JSON.parse(getFav))
+        }
+        favList.push(getItem.data)
+        localStorage.setItem('favRecipes', JSON.stringify(favList))
+      setShowConfirmationModal(false);
+    } catch (error) {
+      toast.error("Failed to add recipe to favorites");
+    }
+  };
+
+ 
   return (
     <>
+    <ToastContainer/>
+
       {/* modal for delete */}
       <DeleteModal
         RecipeWord={RecipeWord}
@@ -233,11 +302,14 @@ export default function Recipes() {
                       {rec.imagePath ? (
                         <img
                           className={`${styleRecipes.imgrec}`}
-                          src={`https://upskilling-egypt.com/${rec.imagePath}`}
+                          src={`https://upskilling-egypt.com/${rec?.imagePath}`}
                           alt=""
                         />
                       ) : (
-                        <p>Not Img</p>
+                        <img
+                          className={`${styleRecipes.imgrec}`}
+                          src={imgError}
+                        />
                       )}
                     </td>
                     <td>{rec.price}</td>
@@ -246,46 +318,64 @@ export default function Recipes() {
                     <td>{rec.category[0]?.name}</td>
 
                     <td>
-                      <div className="btn-group">
-                        <span
-                          className="   "
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <i className="fa-solid fa-ellipsis"></i>{" "}
-                        </span>
-                        <ul className="dropdown-menu">
-                          <li>
+                      {loginData?.userGroup == "SuperAdmin" ? (
+                        <>
+                          {" "}
+                          <div className="btn-group">
                             <span
-                              onClick={() => handleEdit(rec)}
-                              className="dropdown-item"
+                              className="   "
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
                             >
-                              <span
-                                className={`${styleRecipes.btnCursor}  border-0 px-2`}
-                              >
-                                <i className="fa-solid fa-pen-to-square text-warning me-1">
-                                  {" "}
-                                </i>
-                                Edit
-                              </span>{" "}
+                              <i className="fa-solid fa-ellipsis"></i>{" "}
                             </span>
-                          </li>
-                          <li>
-                            <span
-                              onClick={() => handleDelete(rec.id)}
-                              className="dropdown-item"
-                            >
-                              <span
-                                className={`${styleRecipes.btnCursor}   border-0  px-2`}
-                              >
-                                <i className="fa-solid fa-trash text-danger me-1"></i>
-                                Delete
-                              </span>{" "}
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
+                            <ul className="dropdown-menu">
+                              <li>
+                                <span
+                                  onClick={() => handleEdit(rec)}
+                                  className="dropdown-item"
+                                >
+                                  <span
+                                    className={`${styleRecipes.btnCursor}  border-0 px-2`}
+                                  >
+                                    <i className="fa-solid fa-pen-to-square text-warning me-1">
+                                      {" "}
+                                    </i>
+                                    Edit
+                                  </span>{" "}
+                                </span>
+                              </li>
+                              <li>
+                                <span
+                                  onClick={() => handleDelete(rec.id)}
+                                  className="dropdown-item"
+                                >
+                                  <span
+                                    className={`${styleRecipes.btnCursor}   border-0  px-2`}
+                                  >
+                                    <i className="fa-solid fa-trash text-danger me-1"></i>
+                                    Delete
+                                  </span>{" "}
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {" "}
+                          <span
+                            className={`${styleRecipes.btnCursor}`}
+                            // onClick={() => favoritesItem(rec.id)}
+                            onClick={() => handleAddToFavorites(rec.id)}
+
+                            
+                          >
+                            <i className={`${styleRecipes.iconHeart} fa-solid fa-heart text-danger`}></i>
+                          </span>
+                        </>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -332,6 +422,36 @@ export default function Recipes() {
           </>
         )}
       </div>
+
+      {/* // Modal for adding to favorites */}
+<div
+  className={`modal fade ${showConfirmationModal ? "show" : ""}`}
+  id="addToFavoritesModal"
+  tabIndex="-1"
+  aria-labelledby="addToFavoritesModalLabel"
+  aria-hidden={!showConfirmationModal}
+  style={{ display: showConfirmationModal ? "block" : "none" }}
+>
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="addToFavoritesModalLabel">Add to Favorites</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setShowConfirmationModal(false)}></button>
+      </div>
+      <div className="modal-body">
+        Are you sure you want to add this recipe to favorites?
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => setShowConfirmationModal(false)}>Cancel</button>
+        <button type="button" className="btn  btn-danger " onClick={confirmAddToFavorites}>Add to Favorites 
+        <i className="fa-solid fa-heart text-danger text-white ms-1"></i>
+
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
     </>
   );
 }

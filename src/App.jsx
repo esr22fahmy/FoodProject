@@ -16,6 +16,7 @@ import RecipesData from './RecipesModule/Component/Recipes/RecipesData';
 import Register from './AuthModule/Component/Register/Register';
 import { ToastContainer } from "react-toastify";
 import VerifyRegister from './AuthModule/Component/VerifyRegister/VerifyRegister';
+import Favorites from './Favorites/Favorites';
 
 function App() {
   const [DataAdmin, setDataAdmin] = useState(null);
@@ -25,6 +26,8 @@ function App() {
       const decryToken = jwtDecode(TokenAdmin);
       setDataAdmin(decryToken);
       // console.log(DataAdmin)
+      // for share data for recipes
+      localStorage.setItem("dataLogin" , JSON.stringify(decryToken));
 
   };
 
@@ -60,6 +63,8 @@ function App() {
         { path: 'recipesData/:recipeId', element: <RecipesData/> },
         { path: 'user', element: <User /> },
         { path: 'categories', element: <Categories /> },
+        { path: 'favorites', element: <Favorites /> },
+
       ]
     },
   ]);

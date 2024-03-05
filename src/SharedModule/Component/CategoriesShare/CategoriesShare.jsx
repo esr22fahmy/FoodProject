@@ -3,20 +3,33 @@ import axios from "axios";
 
 const CategoriesShare = () => {
     const [CategoriesList, setCategoriesList] = useState([]);
+    const [getPages, setgetPages] = useState(0);
 
-  const CategoriesShow = async () => {
+  const CategoriesShow = async (pageNu, pageSize ,name) => {
     try {
-      let dtaCategories = await axios.get(
-        "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=10&pageNumber=1",
+      let dataCategories = await axios.get(
+        // "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=10&pageNumber=1",
+        "https://upskilling-egypt.com:443/api/v1/Category/",
+
         {
           headers: {
             Authorization: localStorage.getItem("tokemAdmin"),
           },
+          params: {
+            pageNumber: pageNu,
+            name: name,
+            pageSize: pageSize,
+            
+          },
         }
       );
+      const totalPages = dataCategories.data.totalNumberOfPages;
+      const pagesArray = Array.from(Array(totalPages).keys()).map((num) => num + 1);
+      
+      setgetPages(pagesArray);
+    
       // console.log(CategoriesList)
-
-      setCategoriesList(dtaCategories.data.data);
+      setCategoriesList(dataCategories.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -24,10 +37,10 @@ const CategoriesShare = () => {
 
 
   useEffect(() => {
-    CategoriesShow();
+    CategoriesShow(1.10);
   }, []);
 
-  return { CategoriesList ,setCategoriesList ,CategoriesShow};
+  return { CategoriesList ,setCategoriesList ,CategoriesShow ,getPages };
 };
 
 export default CategoriesShare;

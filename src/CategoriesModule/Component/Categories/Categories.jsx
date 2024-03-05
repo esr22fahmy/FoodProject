@@ -8,21 +8,31 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import ImgNotData from "../../../SharedModule/Component/ImgNotData/ImgNotData";
 import imgNoDataImg from "../../../imgs/noData.png";
-import ShareCategories from "../../../SharedModule/Component/CategoriesShare/CategoriesShare"
+import ShareCategories from "../../../SharedModule/Component/CategoriesShare/CategoriesShare";
+import TagIdShare from "../../../SharedModule/Component/TagIdShare/TagIdShare";
 
 export default function Categories() {
   const [editingCategory, setEditingCategory] = useState(null);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [categoryIdToDelete, setCategoryIdToDelete] = useState(null);
   // modal
-  const [editMode, setEditMode] = useState(false); 
+  const [editMode, setEditMode] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [show, setShow] = useState(false);
-// 
+  //
+  const { isTag, setisTag } = TagIdShare();
 
+  // search fillter
+  const [nameSearch, setnameSearch] = useState("");
+  const [selectTagId, setselectTagId] = useState(0);
+  const [selectCatID, setselectCatID] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  //
 
   // used custom hook to make the data share
-  const { CategoriesList ,setCategoriesList ,CategoriesShow} = ShareCategories();
+  const { CategoriesList, setCategoriesList, CategoriesShow, getPages } =
+    ShareCategories();
 
   const {
     register,
@@ -42,16 +52,28 @@ export default function Categories() {
   const handleShow = () => setShow(true);
   // end modals
 
-
+  // fillter
   useEffect(() => {
-    CategoriesShow();
-  }, []);
+    CategoriesShow(currentPage, 10);
+  }, [currentPage]);
+// 
+  //  handle Previous button click
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  // handle Next button click
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
   // add and updata
   const submitEdit = async (data) => {
     try {
       if (editingCategory) {
-        console.log(editingCategory)
+        console.log(editingCategory);
         const updatedCategory = { ...editingCategory, name: newCategoryName };
         await axios.put(
           `https://upskilling-egypt.com:443/api/v1/Category/${updatedCategory.id}`,
@@ -65,7 +87,7 @@ export default function Categories() {
         handleClose();
         CategoriesShow();
         toast.success("Category updated successfully");
-      } 
+      }
       // add
       else {
         const newCategory = { name: newCategoryName };
@@ -99,7 +121,6 @@ export default function Categories() {
     handleShow();
   };
 
-
   // end handle  updata
 
   // delete
@@ -131,12 +152,17 @@ export default function Categories() {
     setCategoryIdToDelete(categoryId); // Set the category ID to delete
   };
 
-
   //end delete
+
+  // for search
+
+  let getNameValue = (input) => {
+    setnameSearch(input.target.value);
+    CategoriesShow(1, 10, input.target.value);
+  };
 
   return (
     <>
-    
       <ToastContainer />
       <Header
         className="text-white"
@@ -217,6 +243,23 @@ export default function Categories() {
         </div>
       </div>
 
+      {/* fillter */}
+      <div className=" container">
+        <div className=" row p-4 ">
+          <div className=" col-md-12">
+            <div className="form-group has-search">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search"
+                onChange={getNameValue}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*  */}
+
       <div className=" text-center mt-5 mx-4 ">
         <table className="table ">
           <thead className="">
@@ -240,9 +283,59 @@ export default function Categories() {
                     <td>{index}</td>
                     <td>{cat.id}</td>
                     <td>{cat.name}</td>
-                    <td>{new Date(cat.creationDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}</td>
+                    <td>
+                      {new Date(cat.creationDate).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "short",
+                      })}
+                    </td>
 
                     <td>
+                      {" "}
+                      <div className="btn-group">
+                        <span
+                          className="   "
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="fa-solid fa-ellipsis"></i>{" "}
+                        </span>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <span
+                              onClick={() => handleEdit(cat)}
+                              className="dropdown-item"
+                            >
+                              <span
+                                className={`${styleCateg.btnCursor} text-warning border-0 `}
+                              >
+                                <i className="fa-solid fa-pen-to-square me-1"></i>
+                                Edit
+                                
+                              </span>{" "}
+                            </span>
+                          </li>
+                          <li>
+                            <span
+                              onClick={() => handleDelete(rec.id)}
+                              className="dropdown-item"
+                            >
+                              <span
+                                className={`${styleCateg.btnCursor}  text-danger border-0 `}
+                                onClick={() => handleDelete(cat.id)}
+                              >
+                                <i className="fa-solid fa-trash me-1"></i>
+                                Delete
+
+                              </span>
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+
+                    {/* <td>
                       <span
                         className={`${styleCateg.btnCursor} text-warning border-0 `}
                         onClick={() => handleEdit(cat)}
@@ -257,11 +350,45 @@ export default function Categories() {
                       >
                         <i className="fa-solid fa-trash"></i>
                       </span>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            <nav aria-label="Page navigation example ">
+              <ul className="pagination">
+                <li className="page-item">
+                  <button
+                    className="page-link"
+                    onClick={handlePreviousPage}
+                    aria-label="Previous"
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                  </button>
+                </li>
+
+                {getPages.map((pageNu, index) => (
+                  <li
+                    key={index}
+                    className="page-item"
+                    onClick={() => CategoriesShow(pageNu, 10)}
+                  >
+                    <a className="page-link">{pageNu}</a>
+                  </li>
+                ))}
+
+                <li className="page-item">
+                  <button
+                    className="page-link"
+                    onClick={handleNextPage}
+                    aria-label="Next"
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </div>
         ) : (
           <>

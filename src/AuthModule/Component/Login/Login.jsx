@@ -37,7 +37,7 @@ export default function Login({ FunDataAdmin }) {
       toast.success("You are logged in successfully!");
       navigate("/dashboard");
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       toast.error(error.message);
     }
     setLoadingBtn(false);
