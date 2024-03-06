@@ -108,7 +108,7 @@ export default function SideBar({ DataAdmin }) {
               Change Password
             </MenuItem>
             <MenuItem
-              icon={<i className="fa-solid fa-right-from-bracket"></i>}
+              icon={<i className="fa-solid fa-right-from-bracket text-danger"></i>}
               onClick={FunLogout}
             >
               {" "}

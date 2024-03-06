@@ -68,12 +68,11 @@ justify-content: center;
   height: 100% !important;
 
  }
- .sidebar-container {
+  .sidebar-container {
   height: 100% !important;
   position: fixed;
   left: 0;
-  top: 0;
-}
+  top: 0; }
 
 /* side bar */
 
@@ -175,3 +174,23 @@ height: 18rem
   height: 18rem
 
 }
+
+.materLayout{
+  width: 20rem;
+}
+
+@media (min-width: 200px) and (max-width: 800px) {
+
+.ps-sidebar-root{
+  width: 80px !important;
+    min-width: 80px !important;
+}
+
+.sidebarCon .ps-sidebar-container{
+  
+  border-top-right-radius:0rem !important;
+}
+
+}
+
+

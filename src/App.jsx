@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, createHashRouter } from 'react-router-dom';
 import AuthLayout from './SharedModule/Component/AuthLayout/AuthLayout';
 import MasterLayout from './SharedModule/Component/MasterLayout/MasterLayout';
 import Login from './AuthModule/Component/Login/Login';
@@ -17,6 +17,7 @@ import Register from './AuthModule/Component/Register/Register';
 import { ToastContainer } from "react-toastify";
 import VerifyRegister from './AuthModule/Component/VerifyRegister/VerifyRegister';
 import Favorites from './Favorites/Favorites';
+
 
 function App() {
   const [DataAdmin, setDataAdmin] = useState(null);
@@ -37,7 +38,7 @@ function App() {
     }
   }, []);
 
-  const routers = createBrowserRouter([
+  const routers = createHashRouter([
     {
       path: '/',
       element: <AuthLayout/>,

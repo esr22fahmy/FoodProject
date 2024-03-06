@@ -8,26 +8,27 @@ export default function MasterLayout({DataAdmin}) {
   return (
     <>
   
-          <div className=' d-flex'>
-          <div className=''>
-            <SideBar DataAdmin={DataAdmin}/>
-          </div>
-          <div className='w-100'>
-            <Navbar DataAdmin={DataAdmin} />
-            {/* <Header  DataAdmin={DataAdmin}/> */}
-            <Outlet DataAdmin={DataAdmin}/>
-          </div>
-       
+    <div className='  container-fluid'>
+
+    <div className=' row'>
+
+   <div className=' col-2 col-md-2 '>
+     <SideBar DataAdmin={DataAdmin}/>
+   </div>
+   <div className=' col-10  col-md-10 '>
+     <Navbar DataAdmin={DataAdmin} />
+     {/* <Header  DataAdmin={DataAdmin}/> */}
+     <Outlet DataAdmin={DataAdmin}/>
+   </div>
 
 
 
 
 
+</div>
 
 
-
-          </div>
-      
+    </div>
     </>
   )
 }

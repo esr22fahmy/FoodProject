@@ -225,7 +225,7 @@ const favoritesItem =async(RecipeId)=>{
       {/* fillter */}
       <div className=" container">
         <div className=" row p-4 ">
-          <div className=" col-md-6">
+          <div className=" col-4 col-md-6">
             <div className="form-group has-search">
               <input
                 type="text"
@@ -236,7 +236,7 @@ const favoritesItem =async(RecipeId)=>{
             </div>
           </div>
           {/*Tag  */}
-          <div className=" col-md-3">
+          <div className="col-4 col-md-3">
             <div className="input-group mb-3">
               <select
                 className={`${styleRecipes.inputs} form-select`}
@@ -252,7 +252,7 @@ const favoritesItem =async(RecipeId)=>{
             </div>
           </div>
           {/* Categories */}
-          <div className=" col-md-3">
+          <div className="col-4 col-md-3">
             <div className="input-group mb-3">
               <select
                 className={`${styleRecipes.inputs} form-select`}
@@ -275,7 +275,7 @@ const favoritesItem =async(RecipeId)=>{
         <table className="table ">
           <thead className="">
             <tr className="tableActive  ">
-              <th scope="col "> Item Name</th>
+              <th scope="col ">Name</th>
               <th scope="col">Image</th>
               <th scope="col">Price</th>
               <th scope="col">Description</th>

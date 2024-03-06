@@ -15,17 +15,37 @@ export default function User() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const [show, setShow] = useState(false);
+  const [getPages, setgetPages] = useState(0);
+  const [nameSearch, setnameSearch] = useState("");
+  const [countrySearch, setcountrySearch] = useState("");
+  const [EmailSearch, setEmailSearch] = useState("");
 
-  let getListUser = async () => {
+
+  let getListUser = async (pageNu, pageSize,name ,email ,country) => {
     try {
       let { data } = await axios.get(
-        "https://upskilling-egypt.com:443/api/v1/Users/?pageSize=10&pageNumber=1",
+        "https://upskilling-egypt.com:443/api/v1/Users/",
+
+        // "https://upskilling-egypt.com:443/api/v1/Users/?pageSize=10&pageNumber=1",
         {
           headers: {
             Authorization: localStorage.getItem("tokemAdmin"),
           },
+          params: {
+            pageNumber: pageNu,
+            pageSize: pageSize,
+            userName:name,
+            email:email,
+            country:country,
+            // groups:groups
+            
+          },
         }
       );
+      const totalPages = data.totalNumberOfPages;
+      // console.log(totalPages)
+      const pagesArray = Array.from(Array(totalPages).keys()).map((num) => num + 1);
+      setgetPages(pagesArray);
 
       // console.log(data)
       setListUser(data.data);
@@ -36,8 +56,11 @@ export default function User() {
     }
   };
 
+
   useEffect(() => {
-    getListUser();
+    getListUser(1, 10);
+
+
   }, []);
 
  // delete
@@ -71,13 +94,28 @@ export default function User() {
     setUserIdToDelete(UseryId);
   };
 
-    // for search
 
-    let getNameValue = (input) => {
-      setnameSearch(input.target.value);
-      CategoriesShow(1, 10, input.target.value);
-    };
+  // filter
   
+
+  let getNameValue = (input) => {
+    setnameSearch(input.target.value);
+    getListUser(1, 10, input.target.value);
+  };
+
+  let getEmailValue = (input) => {
+    setEmailSearch(input.target.value);
+    getListUser(1, 10,nameSearch ,input.target.value ,countrySearch);
+  };
+
+
+  let getCountyValue = (input) => {
+    setcountrySearch(input.target.value);
+    // console.log(countrySearch)
+    getListUser(1, 10,nameSearch ,EmailSearch, input.target.value) ;
+  };
+
+
 
   return (
     <>
@@ -129,16 +167,40 @@ export default function User() {
          {/* fillter */}
          <div className=" container">
         <div className=" row p-4 ">
-          <div className=" col-md-12">
+          <div className=" col-md-3">
             <div className="form-group has-search">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Search"
+                placeholder="Search For Name"
                 onChange={getNameValue}
               />
             </div>
           </div>
+
+          <div className=" col-md-3">
+<div className="form-group has-search">
+  <input
+    type="text"
+    className="form-control"
+    placeholder="Search For Email"
+    onChange={getEmailValue}
+  />
+</div>
+</div>
+          <div className=" col-md-3">
+            <div className="form-group has-search">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search For Country"
+                onChange={getCountyValue}
+              />
+            </div>
+          </div>
+
+
+
         </div>
       </div>
       {/*  */}

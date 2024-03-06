@@ -5,7 +5,7 @@ const CategoriesShare = () => {
     const [CategoriesList, setCategoriesList] = useState([]);
     const [getPages, setgetPages] = useState(0);
 
-  const CategoriesShow = async (pageNu, pageSize ,name) => {
+  const CategoriesShow = async (pageNu, pageSize ,name ,) => {
     try {
       let dataCategories = await axios.get(
         // "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=10&pageNumber=1",
