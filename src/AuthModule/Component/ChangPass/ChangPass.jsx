@@ -10,13 +10,26 @@ import { RotatingLines } from "react-loader-spinner";
 
 export default function ChangPass({ handleClose }) {
   const [loadingBtn, setloadingBtn] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [massageError, setmassageError] = useState("");
+  // showPassword
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPasswor, setshowNewPasswor] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
+  const toggleNewPassword = () => {
+    setshowNewPasswor((prevState) => !prevState);
+  };
+
+  const togglePasswordVisibilityconfirm = () => {
+    setShowPasswordConfirm((prevState) => !prevState);
+  };
+
+  //
   let {
     register,
     handleSubmit,
@@ -113,18 +126,21 @@ export default function ChangPass({ handleClose }) {
                 {/* password */}
                 <input
                   className={`${styleLogin.InputLogin} form-control`}
-                  type="password"
                   placeholder="New Password"
+                  type={showNewPasswor ? "text" : "password"}
+
                   {...register("newPassword", {
                     required: "new Password is required",
-                    //     pattern:{
-                    //       value: /^[a-zA-Z]{4}\d{1,5}$/,
-                    //       message:"password Not vaild"
-                    // }
+                 
                   })}
                 />
 
-            
+                <i
+                  className={`fa-regular fa-eye${
+                    showNewPasswor ? "-slash" : ""
+                  }`}
+                  onClick={toggleNewPassword}
+                ></i>
 
                 {errors.newPassword && (
                   <div className="alert alert-danger  d-inline-block w-100 mt-1">
@@ -145,12 +161,18 @@ export default function ChangPass({ handleClose }) {
                 {/* confirmPassword */}
                 <input
                   className={`${styleLogin.InputLogin} form-control`}
-                  type="password"
+                  type={showPasswordConfirm ? "text" : "password"}
                   placeholder="Confirm New Password"
                   {...register("confirmNewPassword", {
                     required: "confirm Password is required",
                   })}
                 />
+                <i
+                  className={`fa-regular fa-eye${
+                    showPasswordConfirm ? "-slash" : ""
+                  }`}
+                  onClick={togglePasswordVisibilityconfirm}
+                ></i>
 
                 {errors.confirmNewPassword && (
                   <div className="alert alert-danger  d-inline-block w-100 mt-1">

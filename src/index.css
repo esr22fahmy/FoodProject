@@ -97,6 +97,7 @@ justify-content: center;
   cursor: pointer;
 }
 
+
 /* end login */
 
 .input-wrapper {
@@ -193,4 +194,16 @@ height: 18rem
 
 }
 
+/* pagination */
 
+
+.active>.page-link, .page-link.active {
+  z-index: 3;
+  color: var(--bs-pagination-active-color);
+  background-color: #83878b;
+  border-color: 83878b;
+}
+
+.page-link ,.page-link:hover{
+  color: #009247;
+}

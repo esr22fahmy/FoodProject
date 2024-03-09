@@ -58,7 +58,7 @@ export default function RecipesData() {
       formData.append("tagId", data.tagId);
       formData.append("categoriesIds", data.categoriesIds);
       formData.append("recipeImage", data.recipeImage?.[0]);
-      console.log( data.recipeImage?.[0])
+      // console.log( data.recipeImage?.[0])
       
       
 
@@ -74,10 +74,10 @@ export default function RecipesData() {
             },
           }
         );
-        toast.success(response.data.message);
         // console.log(response)
 
-      } else {
+      } 
+      else {
         response = await axios.post(
           `https://upskilling-egypt.com:443/api/v1/Recipe/`,
           formData,
@@ -88,15 +88,16 @@ export default function RecipesData() {
             },
           }
         );
-        // console.log(response.data.message)
 
-        toast.success(response.data.message);
 
       }
-      toast.success(response.data.message);
+      // toast.success("Recipe Add Successfully");
       reset(); 
       getRecipes();
       navigate("/dashboard/recipes");
+      setTimeout(() => {
+        toast.success(" Recipe successfully!");
+        }, 1000); 
     } catch (error) {
       // console.log(error);
       toast.error(error);
@@ -165,8 +166,8 @@ export default function RecipesData() {
               })}
               className={`${styleRecipes.inputs} form-select`}
             >
-                            {/* <option value=''>Tag</option> */}
-
+               {/* <option value='Tag'>Tag</option> */}
+ 
               {isTag?.map((rec, index) => (
                 <option key={index} value= {rec.id}
                 >

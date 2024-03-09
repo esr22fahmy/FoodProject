@@ -1,3 +1,18 @@
 .navCon{
     background-color: rgb(246, 248, 250) !important;
 }
+
+.typeGroup{
+    color: rgb(25, 105, 25) !important;
+    font-size: 5rem !important;
+    font-weight: 800 !important;
+}
+
+.group{
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+}
+
+.imgNav{
+    width:5% ;
+}

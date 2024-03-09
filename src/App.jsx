@@ -42,6 +42,8 @@ function App() {
     {
       path: '/',
       element: <AuthLayout/>,
+      errorElement:<NotFound/>,
+
       children: [
         { index: true, element: <Login FunDataAdmin={FunDataAdmin}/> },
         { path: 'login', element: <Login FunDataAdmin={FunDataAdmin}/> },
@@ -57,6 +59,8 @@ function App() {
     {
       path: 'dashboard',
       element: <ProducteRoute DataAdmin={DataAdmin}><MasterLayout DataAdmin={DataAdmin} /></ProducteRoute>,
+      errorElement:<NotFound/>,
+
       children: [
         { index: true, element: <Home  DataAdmin={DataAdmin}/> },
         { path: 'home', element: <Home  DataAdmin={DataAdmin}/> },

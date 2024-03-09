@@ -12,6 +12,7 @@ import ShareCategories from "../../../SharedModule/Component/CategoriesShare/Cat
 import { useForm } from "react-hook-form";
 import TagIdShare from "../../../SharedModule/Component/TagIdShare/TagIdShare";
 import imgError from "../../../imgs/false-2061131_1280.png";
+import { BallTriangle } from "react-loader-spinner";
 
 export default function Recipes() {
   // console.log(JSON.parse(localStorage.getItem("dataLogin")));
@@ -22,6 +23,19 @@ export default function Recipes() {
   const [RecipeIdToDelete, setRecipeIdIdToDelete] = useState(null);
   const [RecipeWord, setRecipeWord] = useState("Recipe");
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  // modal for view
+
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState({});
+
+  const handleViewProduct = (product) => {
+    setSelectedProduct(product);
+    setShowProductModal(true);
+  };
+
+  //
 
   // used custom hook to make the data share
   const { ListRecipes, setListRecipes, getRecipes, getPages } = ShareRecipes();
@@ -36,33 +50,31 @@ export default function Recipes() {
   const [selectCatID, setselectCatID] = useState(0);
   //
   const navigate = useNavigate();
-// 
+  //
 
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [recipeIdToAddToFavorites, setRecipeIdToAddToFavorites] =
+    useState(null);
 
-const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-const [recipeIdToAddToFavorites, setRecipeIdToAddToFavorites] = useState(null);
+  const favoritesItem = async (RecipeId) => {
+    try {
+      let favor = await axios.post(
+        `https://upskilling-egypt.com:443/api/v1/userRecipe/`,
+        { recipeId: RecipeId },
+        {
+          headers: {
+            Authorization: localStorage.getItem("tokemAdmin"),
+          },
+        }
+      );
+      console.log(favor);
+      toast.success("Add favorite Recipesuccessfully");
+    } catch (error) {
+      toast.error("Failed to add favorite Recipe ");
+    }
+  };
+  // end favorites
 
-
-
-const favoritesItem =async(RecipeId)=>{
-  try {
-  let favor=  await axios.post(
-      `https://upskilling-egypt.com:443/api/v1/userRecipe/`,
-      {"recipeId":RecipeId},
-      {
-        headers: {
-          Authorization: localStorage.getItem("tokemAdmin"),
-        },
-      }
-    );
-    console.log(favor);
-    toast.success("Add favorite Recipesuccessfully");
-  } catch (error) {
-    toast.error("Failed to add favorite Recipe ");
-  }
-
-}
-// end favorites
   const {
     register,
     handleSubmit,
@@ -72,13 +84,17 @@ const favoritesItem =async(RecipeId)=>{
   } = useForm();
 
   useEffect(() => {
-    getRecipes(currentPage, 10);
+    setLoading(true); // Set loading state to true before fetching data
+    getRecipes(currentPage, 10)
+      .then(() => setLoading(false)) // Set loading state to false after fetching data
+      .catch(() => setLoading(false)); // Set loading state to false if there's an error
   }, [currentPage]);
 
   //  handle Previous button click
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
+      
     }
   };
 
@@ -86,8 +102,21 @@ const favoritesItem =async(RecipeId)=>{
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
+  // const handleNextPage = () => {
+  //   setCurrentPage((prevPage) => prevPage + 1);
+  //   getRecipes(currentPage + 1, 10, nameSearch, selectTagId, selectCatID)
+  //     .then((data) => {
+  //       if (!data || data.length === 0) {
+  //         // when data  finished rutern first data
+  //         setCurrentPage(1);
+  //         getRecipes(1, 10, nameSearch, selectTagId, selectCatID);
+  //       }
+  //     })
+    
+  // };
+ 
 
-  // delet
+  // delete
 
   const deleteRecipe = async (RecipeId) => {
     try {
@@ -121,10 +150,6 @@ const favoritesItem =async(RecipeId)=>{
 
   const handleEdit = (recipe) => {
     navigate(`/dashboard/recipesData/${recipe.id}`, { state: { recipe } });
-
-    // console.log(recipe)
-    // console.log("edittt")
-    // setTest()
   };
 
   const handleAddNewItem = () => {
@@ -147,11 +172,11 @@ const favoritesItem =async(RecipeId)=>{
 
   // Categories
   let getCate = (cat) => {
-    setselectCatID(cat.target.value);
-    getRecipes(1, 10, nameSearch, selectTagId, cat.target.value);
+    const categoryId = cat.target.value;
+    setselectCatID(categoryId);
+    getRecipes(1, 10, nameSearch, selectTagId, categoryId);
   };
-
-  // 
+  //
 
   // ...
 
@@ -161,34 +186,32 @@ const favoritesItem =async(RecipeId)=>{
   };
 
   const confirmAddToFavorites = async () => {
-    const getFav = localStorage.getItem('favRecipes')
-    let favList = []
+    const getFav = localStorage.getItem("favRecipes");
+    let favList = [];
     try {
-        await favoritesItem(recipeIdToAddToFavorites);
-        let getItem=  await axios.get(
-          `https://upskilling-egypt.com/api/v1/Recipe/${recipeIdToAddToFavorites}`,
-          {
-            headers: {
-              Authorization: localStorage.getItem("tokemAdmin"),
-            },
-          }
-        );
-        if (getFav != null) {
-          favList.push(...JSON.parse(getFav))
+      await favoritesItem(recipeIdToAddToFavorites);
+      let getItem = await axios.get(
+        `https://upskilling-egypt.com/api/v1/Recipe/${recipeIdToAddToFavorites}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("tokemAdmin"),
+          },
         }
-        favList.push(getItem.data)
-        localStorage.setItem('favRecipes', JSON.stringify(favList))
+      );
+      if (getFav != null) {
+        favList.push(...JSON.parse(getFav));
+      }
+      favList.push(getItem.data);
+      localStorage.setItem("favRecipes", JSON.stringify(favList));
       setShowConfirmationModal(false);
     } catch (error) {
       toast.error("Failed to add recipe to favorites");
     }
   };
 
- 
   return (
     <>
-    <ToastContainer/>
-
+      <ToastContainer />
       {/* modal for delete */}
       <DeleteModal
         RecipeWord={RecipeWord}
@@ -213,12 +236,14 @@ const favoritesItem =async(RecipeId)=>{
             <h6 className=" text-muted">You can check all details</h6>
           </div>
           <div>
-            <button
+          {loginData?.userGroup == "SuperAdmin" ? (<button
               onClick={handleAddNewItem}
               className={`${styleRecipes.btnAdd} btn px-5 py-2`}
             >
               Add New Item
-            </button>
+            </button>):(<span></span>)
+}
+            
           </div>
         </div>
       </div>
@@ -284,7 +309,20 @@ const favoritesItem =async(RecipeId)=>{
             </tr>
           </thead>
         </table>
-        {ListRecipes.length > 0 ? (
+        {loading ? (
+          <div className="  d-flex justify-content-center align-items-center">
+            <BallTriangle
+              height={100}
+              width={100}
+              radius={5}
+              color="#4fa94d"
+              ariaLabel="ball-triangle-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        ) : ListRecipes.length > 0 ? (
           <div className="container-fluid ">
             <table className=" table">
               <tbody>
@@ -359,6 +397,20 @@ const favoritesItem =async(RecipeId)=>{
                                   </span>{" "}
                                 </span>
                               </li>
+
+                              <li>
+                                <span
+                                  className="dropdown-item"
+                                  onClick={() => handleViewProduct(rec)}
+                                >
+                                  <span
+                                    className={`${styleRecipes.btnCursor} border-0 px-2`}
+                                  >
+                                    <i className="fa-solid fa-street-view text-success me-1"></i>
+                                    View
+                                  </span>{" "}
+                                </span>
+                              </li>
                             </ul>
                           </div>
                         </>
@@ -369,10 +421,10 @@ const favoritesItem =async(RecipeId)=>{
                             className={`${styleRecipes.btnCursor}`}
                             // onClick={() => favoritesItem(rec.id)}
                             onClick={() => handleAddToFavorites(rec.id)}
-
-                            
                           >
-                            <i className={`${styleRecipes.iconHeart} fa-solid fa-heart text-danger`}></i>
+                            <i
+                              className={`${styleRecipes.iconHeart} fa-solid fa-heart text-danger`}
+                            ></i>
                           </span>
                         </>
                       )}
@@ -422,36 +474,107 @@ const favoritesItem =async(RecipeId)=>{
           </>
         )}
       </div>
-
       {/* // Modal for adding to favorites */}
-<div
-  className={`modal fade ${showConfirmationModal ? "show" : ""}`}
-  id="addToFavoritesModal"
-  tabIndex="-1"
-  aria-labelledby="addToFavoritesModalLabel"
-  aria-hidden={!showConfirmationModal}
-  style={{ display: showConfirmationModal ? "block" : "none" }}
->
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="addToFavoritesModalLabel">Add to Favorites</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setShowConfirmationModal(false)}></button>
+      <div
+        className={`modal fade ${showConfirmationModal ? "show" : ""}`}
+        id="addToFavoritesModal"
+        tabIndex="-1"
+        aria-labelledby="addToFavoritesModalLabel"
+        aria-hidden={!showConfirmationModal}
+        style={{ display: showConfirmationModal ? "block" : "none" }}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="addToFavoritesModalLabel">
+                Add to Favorites
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setShowConfirmationModal(false)}
+              ></button>
+            </div>
+            <div className="modal-body">
+              Are you sure you want to add this recipe to favorites?
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={() => setShowConfirmationModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn  btn-danger "
+                onClick={confirmAddToFavorites}
+              >
+                Add to Favorites
+                <i className="fa-solid fa-heart text-danger text-white ms-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="modal-body">
-        Are you sure you want to add this recipe to favorites?
+      {/* Modal for product view */}
+      <div
+        className={`modal fade ${showProductModal ? "show" : ""}`}
+        id="productViewModal"
+        tabIndex="-1"
+        aria-labelledby="productViewModalLabel"
+        aria-hidden={!showProductModal}
+        style={{ display: showProductModal ? "block" : "none" }}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="productViewModalLabel">
+                Product Details
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setShowProductModal(false)}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <div className=" text-center ">
+                {selectedProduct.imagePath ? (
+                  <img
+                    className="img-fluid w-75 rounded-3"
+                    src={`https://upskilling-egypt.com/${selectedProduct?.imagePath}`}
+                    alt=""
+                  />
+                ) : (
+                  <img className={`${styleRecipes.imgrec}`} src={imgError} />
+                )}
+              </div>
+              <div className=" text-center mt-2">
+                <h4 className=" text-success">{selectedProduct.name}</h4>
+                <h6>{selectedProduct.price}</h6>
+                <p>{selectedProduct.description}</p>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={() => setShowProductModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => setShowConfirmationModal(false)}>Cancel</button>
-        <button type="button" className="btn  btn-danger " onClick={confirmAddToFavorites}>Add to Favorites 
-        <i className="fa-solid fa-heart text-danger text-white ms-1"></i>
-
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
     </>
   );
 }

@@ -10,4 +10,15 @@
 
 .btnCursor{
     cursor: pointer;
+    color: black;
+}
+
+.bgTable{
+
+    background-color: rgb(226,229,235);
+}
+
+.imgUserReplace{
+    width: 35% !important;
+
 }

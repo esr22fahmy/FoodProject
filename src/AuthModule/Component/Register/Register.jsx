@@ -39,7 +39,7 @@ export default function Register() {
   };
 
   async function onSubmit(data) {
-    console.log(data);
+    // console.log(data);
 
     setLoadingBtn(true);
 

@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RotatingLines } from "react-loader-spinner";
+import { useLocation } from "react-router-dom";
 
 export default function Login({ FunDataAdmin }) {
   const navigate = useNavigate();
@@ -21,9 +22,12 @@ export default function Login({ FunDataAdmin }) {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
+
   // data => شايل data for inputs
   async function onSubmit(data) {
     setLoadingBtn(true);
+
+
 
     try {
       let response = await axios.post(
@@ -34,20 +38,34 @@ export default function Login({ FunDataAdmin }) {
       let token = response.data.token;
       localStorage.setItem("tokemAdmin", token);
       FunDataAdmin();
-      toast.success("You are logged in successfully!");
-      navigate("/dashboard");
+      // this way make me allwos me to use toast with navigate
+      // navigate("/dashboard", {
+      //   state: { showToast: true },
+      // });
+      // toast.success('Login Success')
+      navigate('/dashboard')
+      setTimeout(() => {
+        toast.success("You are logged in successfully!");
+        }, 1000); 
     } catch (error) {
-      console.log(error)
-      toast.error(error.message);
+      if (error.response) {
+        if (error.response.status === 401) {
+          toast.error("The password is incorrect");
+        } else if (error.response.status === 404) {
+          toast.error(" The email is not already registered  ");
+        }
+      } else {
+        toast.error(error.message);
+      }
     }
     setLoadingBtn(false);
   }
 
- 
+
   
   return (
     <>
-        <ToastContainer/>
+        {/* <ToastContainer/> */}
 
       <section className={`${styleLogin.secLogin}`}>
         <div className="AuthContainer vh-100">
