@@ -42,80 +42,94 @@ export default function SideBar({ DataAdmin }) {
           <ChangPass handleClose={handleClose} />
         </Modal.Body>
       </Modal>
-      <div className="sidebar-container ">
-        <Sidebar className="sidebarCon " collapsed={iscollapsed}>
-          <Menu className=" mt-4 ">
-            <MenuItem
-              className=" MenImg"
-              onClick={openCloseSide}
-              icon={<img className="hideHover" src={imgSidebar} />}
-            ></MenuItem>
 
-            <MenuItem
-              className="mt-4"
-              icon={<i className="fa-solid fa-house"></i>}
-              component={<Link to="/dashboard" />}
-            >
-              Home
-            </MenuItem>
-            {DataAdmin?.userGroup == "SuperAdmin" ? (
+      <div
+        style={{
+          transition: "width:300ms",
+          width: iscollapsed ? "5rem" : "20rem",
+        }}
+      >
+        <div className="sidebar-container ">
+          <Sidebar className="sidebarCon " collapsed={iscollapsed}>
+            <Menu className=" mt-4 ">
               <MenuItem
-                icon={<i className="fa-solid fa-user-group"></i>}
-                component={<Link to="/dashboard/user" />}
+                className=" MenImg"
+                onClick={() => {
+                  if (window.innerWidth < 200 || window.innerWidth > 900) {
+                    openCloseSide();
+                  }
+                }}
+                icon={<img className="hideHover" src={imgSidebar} />}
+              ></MenuItem>
+
+              <MenuItem
+                className="mt-4"
+                icon={<i className="fa-solid fa-house"></i>}
+                component={<Link to="/dashboard" />}
+              >
+                Home
+              </MenuItem>
+              {DataAdmin?.userGroup == "SuperAdmin" ? (
+                <MenuItem
+                  icon={<i className="fa-solid fa-user-group"></i>}
+                  component={<Link to="/dashboard/user" />}
+                >
+                  {" "}
+                  Users
+                </MenuItem>
+              ) : (
+                ""
+              )}
+              <MenuItem
+                icon={<i className="fa-solid fa-table-cells-large"></i>}
+                component={<Link to="/dashboard/recipes" />}
               >
                 {" "}
-                Users
+                Recipes
               </MenuItem>
-            ) : (
-              ""
-            )}
-            <MenuItem
-              icon={<i className="fa-solid fa-table-cells-large"></i>}
-              component={<Link to="/dashboard/recipes" />}
-            >
-              {" "}
-              Recipes
-            </MenuItem>
 
-            {DataAdmin?.userGroup == "SuperAdmin" ? (
+              {DataAdmin?.userGroup == "SuperAdmin" ? (
+                <MenuItem
+                  icon={<i className="fa-solid fa-calculator"></i>}
+                  component={<Link to="/dashboard/categories" />}
+                >
+                  {" "}
+                  Categories
+                </MenuItem>
+              ) : (
+                ""
+              )}
+              {DataAdmin?.userGroup == "SystemUser" ? (
+                <MenuItem
+                  icon={<i className="fa-solid fa-heart"></i>}
+                  component={<Link to="/dashboard/favorites" />}
+                >
+                  {" "}
+                  Favorites
+                </MenuItem>
+              ) : (
+                ""
+              )}
+
               <MenuItem
-                icon={<i className="fa-solid fa-calculator"></i>}
-                component={<Link to="/dashboard/categories" />}
+                icon={<i className="fa-solid fa-lock"></i>}
+                onClick={handleShow}
               >
                 {" "}
-                Categories
+                Change Password
               </MenuItem>
-            ) : (
-              ""
-            )}
-            {DataAdmin?.userGroup == "SystemUser" ? (
               <MenuItem
-                icon={<i className="fa-solid fa-heart"></i>}
-                component={<Link to="/dashboard/favorites" />}
+                icon={
+                  <i className="fa-solid fa-right-from-bracket text-danger"></i>
+                }
+                onClick={FunLogout}
               >
                 {" "}
-                Favorites
+                Logout
               </MenuItem>
-            ) : (
-              ""
-            )}
-
-            <MenuItem
-              icon={<i className="fa-solid fa-lock"></i>}
-              onClick={handleShow}
-            >
-              {" "}
-              Change Password
-            </MenuItem>
-            <MenuItem
-              icon={<i className="fa-solid fa-right-from-bracket text-danger"></i>}
-              onClick={FunLogout}
-            >
-              {" "}
-              Logout
-            </MenuItem>
-          </Menu>
-        </Sidebar>
+            </Menu>
+          </Sidebar>
+        </div>
       </div>
     </>
   );

@@ -50,7 +50,7 @@ export default function Register() {
         "https://upskilling-egypt.com:443/api/v1/Users/Register",
         registerForm
       );
-      // console.log(response)
+      console.log(response)
 
       toast.success("Registeration Done ");
 

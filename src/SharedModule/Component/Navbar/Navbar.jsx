@@ -2,7 +2,7 @@ import React from "react";
 import styleNav from "../Navbar/Navbar.module.css";
 import imgNav from "../../../imgs/user-icon-2098873_1280.png"
 export default function Navbar({ DataAdmin }) {
-  // console.log(DataAdmin);
+  console.log(DataAdmin);
   return (
     <div className="  container">
       <div className=" row ">
@@ -11,8 +11,8 @@ export default function Navbar({ DataAdmin }) {
             className={`${styleNav.navCon} navbar navbar-expand-lg my-4 rounded-4`}
           >
             <div className=" container-fluid">
-              <div className="row    ">
-              <a className={`${styleNav.typeGroup} nav-link   col-md-6`} href="#">
+              <div className="row  px-3  ">
+              <h1 className={`${styleNav.typeGroup} nav-link   col-md-6 `}>
                 {" "}
                 {DataAdmin?.userGroup == "SuperAdmin" ? (
                   <h5 className={`${styleNav.group}`}>
@@ -25,13 +25,13 @@ export default function Navbar({ DataAdmin }) {
                     <i className="fa-solid fa-heart text-danger"></i>
                   </h5>
                 )}
-              </a>
+              </h1>
 
-              <a className="nav-link text-black col-md-6 text-end" href="#">
+              <h1 className="nav-link text-black col-md-6 text-end" >
                 <img className={`${styleNav.imgNav}`} src={imgNav} />
                 {" "}
                 {DataAdmin?.userName}
-              </a>
+              </h1>
 
 
 

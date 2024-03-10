@@ -28,9 +28,7 @@ a{
   /* height: 100% !important; */
   }
 
-  /* .css-dip3t8 {
-    position: fixed !important;
-  } */
+
 
 .sidebarCon .ps-sidebar-container .ps-menu-button:hover{
 
@@ -177,7 +175,7 @@ height: 18rem
 }
 
 .materLayout{
-  width: 20rem;
+  width: 5rem;
 }
 
 @media (min-width: 200px) and (max-width: 800px) {
@@ -207,3 +205,4 @@ height: 18rem
 .page-link ,.page-link:hover{
   color: #009247;
 }
+
