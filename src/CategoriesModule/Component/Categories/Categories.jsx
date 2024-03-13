@@ -56,7 +56,7 @@ export default function Categories() {
   useEffect(() => {
     CategoriesShow(currentPage, 10);
   }, [currentPage]);
-// 
+  //
   //  handle Previous button click
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -312,7 +312,6 @@ export default function Categories() {
                               >
                                 <i className="fa-solid fa-pen-to-square me-1"></i>
                                 Edit
-                                
                               </span>{" "}
                             </span>
                           </li>
@@ -327,7 +326,6 @@ export default function Categories() {
                               >
                                 <i className="fa-solid fa-trash me-1"></i>
                                 Delete
-
                               </span>
                             </span>
                           </li>
