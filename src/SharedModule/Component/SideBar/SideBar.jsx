@@ -44,6 +44,7 @@ export default function SideBar({ DataAdmin }) {
       </Modal>
 
       <div
+      className={`${styleSide.test}`}
         style={{
           transition: "width:300ms",
           width: iscollapsed ? "5rem" : "20rem",
@@ -55,7 +56,7 @@ export default function SideBar({ DataAdmin }) {
               <MenuItem
                 className=" MenImg"
                 onClick={() => {
-                  if (window.innerWidth < 200 || window.innerWidth > 900) {
+                  if (window.innerWidth < 100 || window.innerWidth > 900) {
                     openCloseSide();
                   }
                 }}

@@ -178,7 +178,7 @@ height: 18rem
   width: 5rem;
 } */
 
-@media (min-width: 200px) and (max-width: 800px) {
+@media (min-width: 100px) and (max-width: 800px) {
 
 .ps-sidebar-root{
   width: 80px !important;
