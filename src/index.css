@@ -49,11 +49,11 @@ justify-content: center;
  }
 
  .sidebarCon .ps-sidebar-container {
-  border-top-right-radius:5rem !important;
+  border-top-right-radius:4rem !important;
  }
 
  .ps-sidebar-root {
-  border-top-right-radius: 5rem !important;
+  border-top-right-radius: 4rem !important;
  }
 
 
