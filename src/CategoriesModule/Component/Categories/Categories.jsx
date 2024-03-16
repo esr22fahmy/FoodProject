@@ -10,6 +10,7 @@ import ImgNotData from "../../../SharedModule/Component/ImgNotData/ImgNotData";
 import imgNoDataImg from "../../../imgs/noData.png";
 import ShareCategories from "../../../SharedModule/Component/CategoriesShare/CategoriesShare";
 import TagIdShare from "../../../SharedModule/Component/TagIdShare/TagIdShare";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function Categories() {
   const [editingCategory, setEditingCategory] = useState(null);
@@ -29,6 +30,8 @@ export default function Categories() {
   const [currentPage, setCurrentPage] = useState(1);
 
   //
+  const [loadingBtn, setLoadingBtn] = useState(false);
+
 
   // used custom hook to make the data share
   const { CategoriesList, setCategoriesList, CategoriesShow, getPages } =
@@ -71,6 +74,8 @@ export default function Categories() {
 
   // add and updata
   const submitEdit = async (data) => {
+    setLoadingBtn(true);
+
     try {
       if (editingCategory) {
         console.log(editingCategory);
@@ -107,6 +112,8 @@ export default function Categories() {
     } catch (error) {
       toast.error(error.message);
     }
+    setLoadingBtn(false);
+
   };
 
   // end  add and updata
@@ -192,8 +199,22 @@ export default function Categories() {
               onChange={(e) => setNewCategoryName(e.target.value)}
             />
             <div className="d-flex justify-content-end mt-5">
-              <button className={` btn ${editMode ? "btn-update" : "btn-add"}`}>
-                {editMode ? "Update" : "Add"}
+              <button className={` btn ${editMode ? "btn-update" : "btn-add"} text-white`}>
+              {loadingBtn ? (
+                        <RotatingLines
+                          visible={true}
+                          height="20"
+                          width="20"
+                          color="grey"
+                          strokeWidth="5"
+                          animationDuration="0.75"
+                          ariaLabel="rotating-lines-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                      ) : (
+                        editMode ? "Update" : "Add"
+                        )}
               </button>{" "}
             </div>
           </form>
@@ -237,7 +258,7 @@ export default function Categories() {
           </div>
           <div>
             <button onClick={handleShow} className={`${styleCateg.btnAdd} btn`}>
-              Add New Category
+                        Add New Category
             </button>
           </div>
         </div>
@@ -333,22 +354,7 @@ export default function Categories() {
                       </div>
                     </td>
 
-                    {/* <td>
-                      <span
-                        className={`${styleCateg.btnCursor} text-warning border-0 `}
-                        onClick={() => handleEdit(cat)}
-                      >
-                        <i className="fa-solid fa-pen-to-square"></i>
-                      </span>{" "}
-                      <span className=" mx-2"> </span>
-                      <span
-                       className={`${styleCateg.btnCursor}  text-danger border-0 `}
-
-                        onClick={() => handleDelete(cat.id)}
-                      >
-                        <i className="fa-solid fa-trash"></i>
-                      </span>
-                    </td> */}
+                
                   </tr>
                 ))}
               </tbody>

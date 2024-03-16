@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from 'react-router-dom';
 import {  useNavigate } from "react-router-dom";
 import TagIdShare from "../../../SharedModule/Component/TagIdShare/TagIdShare";
+import { RotatingLines } from "react-loader-spinner";
 
 
 export default function RecipesData() {
@@ -22,6 +23,8 @@ export default function RecipesData() {
   const location = useLocation();
   // console.log(location)
   // const { recipe } = location.state;
+  const [loadingBtn, setLoadingBtn] = useState(false);
+
 
   const navigate = useNavigate();
   const recipe = location.state && location.state.recipe ? location.state.recipe : null;
@@ -50,6 +53,8 @@ export default function RecipesData() {
   }, [recipe, setValue]);
 
   const submitRecipesData = async (data) => {
+    setLoadingBtn(true);
+
     try {
       const formData = new FormData();
       formData.append("name", data.name);
@@ -104,6 +109,8 @@ export default function RecipesData() {
     }
 
     // console.log(data)
+    setLoadingBtn(false);
+
   };
 
 
@@ -268,7 +275,21 @@ export default function RecipesData() {
           <div className="text-end">
 
           <button className={`btn ${isEditing ? "btn-warning" : "btn-success"}`}>
-              {isEditing ? "Edit" : "Save"}
+          {loadingBtn ? (
+                        <RotatingLines
+                          visible={true}
+                          height="20"
+                          width="20"
+                          color="grey"
+                          strokeWidth="5"
+                          animationDuration="0.75"
+                          ariaLabel="rotating-lines-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                      ) : (
+                        isEditing ? "Edit" : "Save"
+                        )}
             </button>
           </div>
 
