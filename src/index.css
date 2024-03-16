@@ -4,7 +4,8 @@
 }
 
 .AuthContainer{
-  background-image: url(../src/imgs/ella-olsson-C1Q3qOTlegg-unsplash\ 1.png) !important;
+  /* background-image: url(../src/imgs/coverImg.png) !important; */
+  background-image: url(../src/imgs/coverImg.png);
   background-size: cover;
   height: 100vh;
   background-position: center center;
