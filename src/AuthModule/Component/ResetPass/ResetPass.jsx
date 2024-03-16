@@ -11,12 +11,24 @@ import { RotatingLines } from "react-loader-spinner";
 export default function ResetPass() {
   const navigate = useNavigate();
   const [loadingBtn, setloadingBtn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setshowPasswordConfirm] = useState(false);
+
 
   let {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  };
+
+  const togglePasswordConfirm = () => {
+    setshowPasswordConfirm((prevState) => !prevState);
+  };
+
 
   // data => شايل data for inputs
   async function onSubmit(data) {
@@ -125,7 +137,7 @@ export default function ResetPass() {
                       {/* password */}
                       <input
                         className={`${styleLogin.InputLogin} form-control`}
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="New Password"
                         {...register("password", {
                           required: "password is required",
@@ -135,6 +147,12 @@ export default function ResetPass() {
                           // }
                         })}
                       />
+                           <i
+                        className={`fa-regular fa-eye${
+                          showPassword ? "-slash" : ""
+                        }`}
+                        onClick={togglePasswordVisibility}
+                      ></i>
 
                       {errors.password && (
                         <div className="alert alert-danger  d-inline-block w-100 mt-1">
@@ -158,13 +176,20 @@ export default function ResetPass() {
                       {/* confirmPassword */}
                       <input
                         className={`${styleLogin.InputLogin} form-control`}
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Confirm New Password"
                         {...register("confirmPassword", {
                           required: "confirm Password is required",
                       
                         })}
                       />
+
+<i
+                        className={`fa-regular fa-eye${
+                          showPassword ? "-slash" : ""
+                        }`}
+                        onClick={togglePasswordVisibility}
+                      ></i>
 
                       {errors.confirmPassword && (
                         <div className="alert alert-danger  d-inline-block w-100 mt-1">
