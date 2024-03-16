@@ -13,8 +13,11 @@ import { useForm } from "react-hook-form";
 import TagIdShare from "../../../SharedModule/Component/TagIdShare/TagIdShare";
 import imgError from "../../../imgs/false-2061131_1280.png";
 import { BallTriangle } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function Recipes() {
+  const [loadingBtn, setLoadingBtn] = useState(false);
+
   // console.log(JSON.parse(localStorage.getItem("dataLogin")));
   let loginData = JSON.parse(localStorage.getItem("dataLogin"));
   //
@@ -57,6 +60,8 @@ export default function Recipes() {
     useState(null);
 
   const favoritesItem = async (RecipeId) => {
+    setLoadingBtn(true);
+
     try {
       let favor = await axios.post(
         `https://upskilling-egypt.com:443/api/v1/userRecipe/`,
@@ -72,6 +77,8 @@ export default function Recipes() {
     } catch (error) {
       toast.error("Failed to add favorite Recipe ");
     }
+    setLoadingBtn(false);
+
   };
   // end favorites
 
@@ -514,8 +521,24 @@ export default function Recipes() {
                 className="btn  btn-danger "
                 onClick={confirmAddToFavorites}
               >
-                Add to Favorites
-                <i className="fa-solid fa-heart text-danger text-white ms-1"></i>
+                {loadingBtn ? (
+                        <RotatingLines
+                          visible={true}
+                          height="20"
+                          width="20"
+                          color="white"
+                          strokeWidth="5"
+                          animationDuration="0.75"
+                          ariaLabel="rotating-lines-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                      ) : (  <>
+                        Add to Favorites
+                        <i className="fa-solid fa-heart text-danger text-white ms-1"></i>
+                      </>
+                      )}
+            
               </button>
             </div>
           </div>

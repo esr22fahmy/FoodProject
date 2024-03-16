@@ -5,6 +5,7 @@ import axios from "axios";
 import ImgNotData from "../SharedModule/Component/ImgNotData/ImgNotData";
 import imgError from "../imgs/false-2061131_1280.png";
 import FavoritesStyle from "../Favorites/Favorites.module.css";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function Favorites() {
   const [favorList, setfavorList] = useState([]);
