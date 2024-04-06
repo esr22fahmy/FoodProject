@@ -44,7 +44,7 @@ export default function User() {
     try {
       setLoading(true);
       let { data } = await axios.get(
-        "https://upskilling-egypt.com:443/api/v1/Users/",
+        "https://upskilling-egypt.com:3006/api/v1/Users/",
         {
           headers: {
             Authorization: localStorage.getItem("tokemAdmin"),
@@ -80,7 +80,7 @@ export default function User() {
   const deleteUser = async (UseryId) => {
     try {
       await axios.delete(
-        `https://upskilling-egypt.com:443/api/v1/Users/${UseryId}`,
+        `https://upskilling-egypt.com:3006/api/v1/Users/${UseryId}`,
         {
           headers: {
             Authorization: localStorage.getItem("tokemAdmin"),

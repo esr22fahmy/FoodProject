@@ -64,7 +64,7 @@ export default function Recipes() {
 
     try {
       let favor = await axios.post(
-        `https://upskilling-egypt.com:443/api/v1/userRecipe/`,
+        `https://upskilling-egypt.com:3006/api/v1/userRecipe/`,
         { recipeId: RecipeId },
         {
           headers: {
@@ -107,25 +107,13 @@ export default function Recipes() {
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
-  // const handleNextPage = () => {
-  //   setCurrentPage((prevPage) => prevPage + 1);
-  //   getRecipes(currentPage + 1, 10, nameSearch, selectTagId, selectCatID)
-  //     .then((data) => {
-  //       if (!data || data.length === 0) {
-  //         // when data  finished rutern first data
-  //         setCurrentPage(1);
-  //         getRecipes(1, 10, nameSearch, selectTagId, selectCatID);
-  //       }
-  //     })
-
-  // };
 
   // delete
 
   const deleteRecipe = async (RecipeId) => {
     try {
       await axios.delete(
-        `https://upskilling-egypt.com:443/api/v1/Recipe/${RecipeId}`,
+        `https://upskilling-egypt.com:3006/api/v1/Recipe/${RecipeId}`,
         {
           headers: {
             Authorization: localStorage.getItem("tokemAdmin"),
@@ -303,138 +291,147 @@ export default function Recipes() {
       {/*  */}
       {/* table */}
       <div className=" text-center mt-5 mx-4 ">
-      <table className="table">
-  <thead className="">
-    <tr className="tableActive">
-      <th scope="col">Name</th>
-      <th scope="col">Image</th>
-      <th scope="col">Price</th>
-      <th scope="col">Description</th>
-      <th scope="col">Tag</th>
-      <th scope="col">Category</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {loading ? (
-        <td colSpan="7" className="text-center" style={{ verticalAlign: "middle" }}>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <BallTriangle
-            height={100}
-            width={100}
-            radius={5}
-            color="#4fa94d"
-            ariaLabel="ball-triangle-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      </td>
-    ) : ListRecipes.length > 0 ? (
-      ListRecipes.map((rec, index) => (
-        <tr
-          key={index}
-          style={{
-            backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F9FB",
-          }}
-        >
-          <td>{rec.name}</td>
-          <td className={`${styleRecipes.conImg}`}>
-            {rec.imagePath ? (
-              <img
-                className={`${styleRecipes.imgrec}`}
-                src={`https://upskilling-egypt.com/${rec.imagePath}`}
-                alt=""
-              />
-            ) : (
-              <img
-                className={`${styleRecipes.imgrec}`}
-                src={imgError}
-                alt=""
-              />
-            )}
-          </td>
-          <td>{rec.price}</td>
-          <td>{rec.description}</td>
-          <td>{rec.id}</td>
-          <td>{rec.category[0]?.name}</td>
-          <td>
-            {loginData?.userGroup === "SuperAdmin" ? (
-              <div className="btn-group">
-                <span
-                  className=""
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i className="fa-solid fa-ellipsis"></i>
-                </span>
-                <ul className="dropdown-menu">
-                  <li>
-                    <span
-                      onClick={() => handleEdit(rec)}
-                      className="dropdown-item"
-                    >
-                      <span
-                        className={`${styleRecipes.btnCursor} border-0 px-2`}
-                      >
-                        <i className="fa-solid fa-pen-to-square text-warning me-1"></i>
-                        Edit
-                      </span>
-                    </span>
-                  </li>
-                  <li>
-                    <span
-                      onClick={() => handleDelete(rec.id)}
-                      className="dropdown-item"
-                    >
-                      <span
-                        className={`${styleRecipes.btnCursor} border-0 px-2`}
-                      >
-                        <i className="fa-solid fa-trash text-danger me-1"></i>
-                        Delete
-                      </span>
-                    </span>
-                  </li>
-                  <li>
-                    <span
-                      className="dropdown-item"
-                      onClick={() => handleViewProduct(rec)}
-                    >
-                      <span
-                        className={`${styleRecipes.btnCursor} border-0 px-2`}
-                      >
-                        <i className="fa-solid fa-street-view text-success me-1"></i>
-                        View
-                      </span>
-                    </span>
-                  </li>
-                </ul>
-              </div>
-            ) : (
-              <span
-                className={`${styleRecipes.btnCursor}`}
-                onClick={() => handleAddToFavorites(rec.id)}
+        <table className="table">
+          <thead className="">
+            <tr className="tableActive">
+              <th scope="col">Name</th>
+              <th scope="col">Image</th>
+              <th scope="col">Price</th>
+              <th scope="col">Description</th>
+              <th scope="col">Tag</th>
+              <th scope="col">Category</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <td
+                colSpan="7"
+                className="text-center"
+                style={{ verticalAlign: "middle" }}
               >
-                <i
-                  className={`${styleRecipes.iconHeart} fa-solid fa-heart text-danger`}
-                ></i>
-              </span>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <BallTriangle
+                    height={100}
+                    width={100}
+                    radius={5}
+                    color="#4fa94d"
+                    ariaLabel="ball-triangle-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                  />
+                </div>
+              </td>
+            ) : ListRecipes.length > 0 ? (
+              ListRecipes.map((rec, index) => (
+                <tr
+                  key={index}
+                  style={{
+                    backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F9FB",
+                  }}
+                >
+                  <td>{rec.name}</td>
+                  <td className={`${styleRecipes.conImg}`}>
+                    {rec.imagePath ? (
+                      <img
+                        className={`${styleRecipes.imgrec}`}
+                        src={`https://upskilling-egypt.com/${rec.imagePath}`}
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        className={`${styleRecipes.imgrec}`}
+                        src={imgError}
+                        alt=""
+                      />
+                    )}
+                  </td>
+                  <td>{rec.price}</td>
+                  <td>{rec.description}</td>
+                  <td>{rec.id}</td>
+                  <td>{rec.category[0]?.name}</td>
+                  <td>
+                    {loginData?.userGroup === "SuperAdmin" ? (
+                      <div className="btn-group">
+                        <span
+                          className=""
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="fa-solid fa-ellipsis"></i>
+                        </span>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <span
+                              onClick={() => handleEdit(rec)}
+                              className="dropdown-item"
+                            >
+                              <span
+                                className={`${styleRecipes.btnCursor} border-0 px-2`}
+                              >
+                                <i className="fa-solid fa-pen-to-square text-warning me-1"></i>
+                                Edit
+                              </span>
+                            </span>
+                          </li>
+                          <li>
+                            <span
+                              onClick={() => handleDelete(rec.id)}
+                              className="dropdown-item"
+                            >
+                              <span
+                                className={`${styleRecipes.btnCursor} border-0 px-2`}
+                              >
+                                <i className="fa-solid fa-trash text-danger me-1"></i>
+                                Delete
+                              </span>
+                            </span>
+                          </li>
+                          <li>
+                            <span
+                              className="dropdown-item"
+                              onClick={() => handleViewProduct(rec)}
+                            >
+                              <span
+                                className={`${styleRecipes.btnCursor} border-0 px-2`}
+                              >
+                                <i className="fa-solid fa-street-view text-success me-1"></i>
+                                View
+                              </span>
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    ) : (
+                      <span
+                        className={`${styleRecipes.btnCursor}`}
+                        onClick={() => handleAddToFavorites(rec.id)}
+                      >
+                        <i
+                          className={`${styleRecipes.iconHeart} fa-solid fa-heart text-danger`}
+                        ></i>
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="text-center">
+                  <ImgNotData />
+                </td>
+              </tr>
             )}
-          </td>
-        </tr>
-      ))
-    ) : (
-      <tr>
-        <td colSpan="7" className="text-center">
-          <ImgNotData />
-        </td>
-      </tr>
-    )}
-  </tbody>
-</table>
-
+          </tbody>
+        </table>
       </div>
       {/* // Modal for adding to favorites */}
       <div

@@ -9,7 +9,7 @@ const TagIdShare = () => {
   const getTag = async () => {
     try {
       let tagList = await axios.get(
-        "https://upskilling-egypt.com:443/api/v1/tag/",
+        "https://upskilling-egypt.com:3006/api/v1/tag/",
         {
           headers: {
             Authorization: localStorage.getItem("tokemAdmin"),

@@ -15,7 +15,7 @@ export default function Favorites() {
   const fetchFavorites = async () => {
     try {
       const response = await axios.get(
-        "https://upskilling-egypt.com:443/api/v1/userRecipe/",
+        "https://upskilling-egypt.com:3006/api/v1/userRecipe/",
         {
           headers: {
             Authorization: localStorage.getItem("tokemAdmin"),

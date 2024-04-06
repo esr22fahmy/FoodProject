@@ -70,7 +70,7 @@ export default function RecipesData() {
       let response;
       if (recipe && recipe.id) {
         response = await axios.put(
-          `https://upskilling-egypt.com:443/api/v1/Recipe/${recipe.id}`,
+          `https://upskilling-egypt.com:3006/api/v1/Recipe/${recipe.id}`,
           formData,
           {
             headers: {
@@ -84,7 +84,7 @@ export default function RecipesData() {
       } 
       else {
         response = await axios.post(
-          `https://upskilling-egypt.com:443/api/v1/Recipe/`,
+          `https://upskilling-egypt.com:3006/api/v1/Recipe/`,
           formData,
           {
             headers: {

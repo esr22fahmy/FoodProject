@@ -24,7 +24,7 @@ export default function ForgetPass() {
 
     try {
       let DtaApi = await axios.post(
-        "https://upskilling-egypt.com:443/api/v1/Users/Reset/Request",
+        "https://upskilling-egypt.com:3006/api/v1/Users/Reset/Request",
         data
       );
       // console.log(DtaApi.data.token)

@@ -31,7 +31,7 @@ export default function Login({ FunDataAdmin }) {
 
     try {
       let response = await axios.post(
-        "https://upskilling-egypt.com:443/api/v1/Users/Login",
+        "https://upskilling-egypt.com:3006/api/v1/Users/Login",
         data
       );
       // console.log(response)

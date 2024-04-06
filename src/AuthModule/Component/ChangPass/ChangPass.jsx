@@ -43,7 +43,7 @@ export default function ChangPass({ handleClose }) {
     if (data.newPassword === data.confirmNewPassword) {
       try {
         let DtaApi = await axios.put(
-          "https://upskilling-egypt.com:443/api/v1/Users/ChangePassword",
+          "https://upskilling-egypt.com:3006/api/v1/Users/ChangePassword",
           data,
           {
             headers: {

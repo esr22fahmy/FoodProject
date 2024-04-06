@@ -9,7 +9,7 @@ const CategoriesShare = () => {
     try {
       let dataCategories = await axios.get(
         // "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=10&pageNumber=1",
-        "https://upskilling-egypt.com:443/api/v1/Category/",
+        "https://upskilling-egypt.com:3006/api/v1/Category/",
 
         {
           headers: {

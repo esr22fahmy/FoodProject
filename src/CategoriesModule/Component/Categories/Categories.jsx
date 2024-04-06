@@ -81,7 +81,7 @@ export default function Categories() {
         console.log(editingCategory);
         const updatedCategory = { ...editingCategory, name: newCategoryName };
         await axios.put(
-          `https://upskilling-egypt.com:443/api/v1/Category/${updatedCategory.id}`,
+          `https://upskilling-egypt.com:3006/api/v1/Category/${updatedCategory.id}`,
           updatedCategory,
           {
             headers: {
@@ -97,7 +97,7 @@ export default function Categories() {
       else {
         const newCategory = { name: newCategoryName };
         await axios.post(
-          `https://upskilling-egypt.com:443/api/v1/Category/`,
+          `https://upskilling-egypt.com:3006/api/v1/Category/`,
           newCategory,
           {
             headers: {

@@ -9,7 +9,7 @@ const ShareRecipes = () => {
   const getRecipes = async (pageNu, pageSize, name, tagId, CatId) => {
     try {
       let { data } = await axios.get(
-        "https://upskilling-egypt.com:443/api/v1/Recipe/",
+        "https://upskilling-egypt.com:3006/api/v1/Recipe/",
         {
           headers: {
             Authorization: localStorage.getItem("tokemAdmin"),
