@@ -34,7 +34,7 @@ export default function ResetPass() {
 
     try {
       let DtaApi = await axios.post(
-        "https://upskilling-egypt.com:443/api/v1/Users/Reset",
+        "https://upskilling-egypt.com:3006/api/v1/Users/Reset",
         data
       );
       // console.log(DtaApi.data.token)
@@ -170,7 +170,7 @@ export default function ResetPass() {
                       {/* confirmPassword */}
                       <input
                         className={`${styleLogin.InputLogin} form-control`}
-                        type={showPassword ? "text" : "password"}
+                        type={showPasswordConfirm ? "text" : "password"}
                         placeholder="Confirm New Password"
                         {...register("confirmPassword", {
                           required: "confirm Password is required",
@@ -179,9 +179,9 @@ export default function ResetPass() {
 
                       <i
                         className={`fa-regular fa-eye${
-                          showPassword ? "-slash" : ""
+                          showPasswordConfirm ? "-slash" : ""
                         }`}
-                        onClick={togglePasswordVisibility}
+                        onClick={togglePasswordConfirm}
                       ></i>
 
                       {errors.confirmPassword && (

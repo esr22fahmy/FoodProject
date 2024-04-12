@@ -60,6 +60,7 @@ export default function User() {
         }
       );
       setLoading(false);
+      console.log(data)
       const totalPages = data.totalNumberOfPages;
       const pagesArray = Array.from(Array(totalPages).keys()).map(
         (num) => num + 1
@@ -88,6 +89,7 @@ export default function User() {
         }
       );
       getListUser();
+      console.log(ListUser)
       toast.success("User deleted successfully");
     } catch (error) {
       toast.error("Failed to delete User");

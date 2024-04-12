@@ -39,22 +39,19 @@ export default function Login({ FunDataAdmin }) {
       let token = response.data.token;
       localStorage.setItem("tokemAdmin", token);
       FunDataAdmin();
-      // this way make me allwos me to use toast with navigate
-      // navigate("/dashboard", {
-      //   state: { showToast: true },
-      // });
-      // toast.success('Login Success')
+     
       navigate("/dashboard");
       toast.success("You are logged in successfully!");
     } catch (error) {
-      if (error.response) {
+      // console.log(error)
+      if (error) {
         if (error.response.status === 401) {
           toast.error("The password is incorrect");
         } else if (error.response.status === 404) {
           toast.error(" The email is not already registered  ");
         }
       } else {
-        toast.error(error.message);
+        toast.error(error.response.data.message);
       }
     }
     setLoadingBtn(false);
