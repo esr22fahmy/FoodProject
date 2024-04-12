@@ -293,7 +293,7 @@ export default function User() {
                       {user.imagePath ? (
                         <img
                           className={`${StyleUser.imgUser}`}
-                          src={`https://upskilling-egypt.com/${user.imagePath}`}
+                          src={`https://upskilling-egypt.com:3006/${user.imagePath}`}
                           alt=""
                         />
                       ) : (

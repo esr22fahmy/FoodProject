@@ -100,9 +100,7 @@ export default function RecipesData() {
       reset(); 
       getRecipes();
       navigate("/dashboard/recipes");
-      setTimeout(() => {
         toast.success(" Recipe successfully!");
-        }, 1000); 
     } catch (error) {
       // console.log(error);
       toast.error(error);
@@ -141,7 +139,6 @@ export default function RecipesData() {
 
   return (
     <>
-    <ToastContainer/>
       <RecipsHeader />
 
       <div className=" container mb-5">

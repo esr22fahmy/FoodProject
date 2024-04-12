@@ -342,7 +342,7 @@ export default function Recipes() {
                     {rec.imagePath ? (
                       <img
                         className={`${styleRecipes.imgrec}`}
-                        src={`https://upskilling-egypt.com/${rec.imagePath}`}
+                        src={`https://upskilling-egypt.com:3006/${rec.imagePath}`}
                         alt=""
                       />
                     ) : (
