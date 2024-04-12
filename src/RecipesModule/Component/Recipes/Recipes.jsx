@@ -203,7 +203,7 @@ export default function Recipes() {
 
   return (
     <>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {/* modal for delete */}
       <DeleteModal
         RecipeWord={RecipeWord}

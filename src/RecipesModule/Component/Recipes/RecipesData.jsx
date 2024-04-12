@@ -96,13 +96,15 @@ export default function RecipesData() {
 
 
       }
-      // toast.success("Recipe Add Successfully");
+      console.log(response);
       reset(); 
       getRecipes();
       navigate("/dashboard/recipes");
-        toast.success(" Recipe successfully!");
+        toast.success(" The Recipe created successfully");
+        // toast.success(response.data.message);
+
     } catch (error) {
-      // console.log(error);
+      console.log(error.response.data.message);
       toast.error(error);
     }
 

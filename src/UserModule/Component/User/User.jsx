@@ -60,7 +60,7 @@ export default function User() {
         }
       );
       setLoading(false);
-      console.log(data)
+      // console.log(data)
       const totalPages = data.totalNumberOfPages;
       const pagesArray = Array.from(Array(totalPages).keys()).map(
         (num) => num + 1
@@ -89,7 +89,6 @@ export default function User() {
         }
       );
       getListUser();
-      console.log(ListUser)
       toast.success("User deleted successfully");
     } catch (error) {
       toast.error("Failed to delete User");
@@ -167,7 +166,7 @@ export default function User() {
 
   return (
     <>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Modal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}

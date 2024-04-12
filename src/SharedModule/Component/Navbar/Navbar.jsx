@@ -2,7 +2,7 @@ import React from "react";
 import styleNav from "../Navbar/Navbar.module.css";
 import imgNav from "../../../imgs/user-icon-2098873_1280.png"
 export default function Navbar({ DataAdmin }) {
-  console.log(DataAdmin);
+  // console.log(DataAdmin);
   return (
     <div className="  container">
       <div className=" row ">
