@@ -54,7 +54,7 @@ export default function ChangPass({ handleClose }) {
 
         //   console.log(DtaApi);
         handleClose();
-        toast.success("You are  change password");
+        toast.success("You are change password");
       } catch (error) {
         // console.log(error.response.data.message);
         toast.error(error.response.data.message);

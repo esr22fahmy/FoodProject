@@ -17,6 +17,7 @@ import Register from './AuthModule/Component/Register/Register';
 import { ToastContainer } from "react-toastify";
 import VerifyRegister from './AuthModule/Component/VerifyRegister/VerifyRegister';
 import Favorites from './Favorites/Favorites';
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {

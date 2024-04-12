@@ -29,14 +29,11 @@ export default function ForgetPass() {
       );
       // console.log(DtaApi.data.token)
       let ResultToen = DtaApi.data.token;
-      console.log(ResultToen);
+      // console.log(ResultToen);
 
-      setTimeout(() => {
         toast.success(
           "Your request is being processed, please check your email"
         );
-      }, 1000);
-
       navigate("/resetPass");
     } catch (error) {
       // console.log(error.response.data.message);
@@ -50,7 +47,7 @@ export default function ForgetPass() {
   return (
     <>
       <section className={`${styleLogin.secLogin}`}>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         <div className="AuthContainer vh-100">
           <div className="AuthLayer vh-100 container-fluid">
             <div className=" row vh-100 justify-content-center  align-items-center">

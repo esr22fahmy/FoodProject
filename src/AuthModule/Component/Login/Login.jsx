@@ -20,14 +20,15 @@ export default function Login({ FunDataAdmin }) {
     setShowPassword((prevState) => !prevState);
   };
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   // data => شايل data for inputs
   async function onSubmit(data) {
     setLoadingBtn(true);
-
-
 
     try {
       let response = await axios.post(
@@ -43,10 +44,8 @@ export default function Login({ FunDataAdmin }) {
       //   state: { showToast: true },
       // });
       // toast.success('Login Success')
-      navigate('/dashboard')
-      setTimeout(() => {
-        toast.success("You are logged in successfully!");
-        }, 1000); 
+      navigate("/dashboard");
+      toast.success("You are logged in successfully!");
     } catch (error) {
       if (error.response) {
         if (error.response.status === 401) {
@@ -61,11 +60,9 @@ export default function Login({ FunDataAdmin }) {
     setLoadingBtn(false);
   }
 
-
-  
   return (
     <>
-        {/* <ToastContainer/> */}
+      {/* <ToastContainer/> */}
 
       <section className={`${styleLogin.secLogin}`}>
         <div className="AuthContainer vh-100">
@@ -129,7 +126,6 @@ export default function Login({ FunDataAdmin }) {
                           //       message:"password Not vaild"
                           // }
                         })}
-                       
                       />
                       <i
                         className={`fa-regular fa-eye${
@@ -145,12 +141,10 @@ export default function Login({ FunDataAdmin }) {
                       )}
                     </div>
 
-
-
                     <div className=" d-flex justify-content-between my-2">
                       <Link to="/register" className=" text-dark">
-                      Register Now? 
-                       </Link>
+                        Register Now?
+                      </Link>
                       <Link to="/forgetPass" className=" text-success">
                         Forgot Password?
                       </Link>

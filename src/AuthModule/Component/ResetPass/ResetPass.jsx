@@ -14,7 +14,6 @@ export default function ResetPass() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setshowPasswordConfirm] = useState(false);
 
-
   let {
     register,
     handleSubmit,
@@ -29,7 +28,6 @@ export default function ResetPass() {
     setshowPasswordConfirm((prevState) => !prevState);
   };
 
-
   // data => شايل data for inputs
   async function onSubmit(data) {
     setloadingBtn(true);
@@ -43,9 +41,9 @@ export default function ResetPass() {
       let ResultToen = DtaApi.data.token;
       // console.log(ResultToen);
 
-      setTimeout(() => {
-        toast.success("You are reset");
-      }, 1000);
+      // setTimeout(() => {
+      toast.success("You are reset");
+      // }, 1000);
       navigate("/dashboard");
     } catch (error) {
       // console.log(error.response.data.message);
@@ -58,7 +56,7 @@ export default function ResetPass() {
   return (
     <>
       <section className={`${styleLogin.secLogin}`}>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         <div className="AuthContainer vh-100">
           <div className="AuthLayer vh-100 container-fluid">
             <div className=" row vh-100 justify-content-center  align-items-center">
@@ -68,11 +66,10 @@ export default function ResetPass() {
                     <img className=" w-50 " src={imgLogo} alt=" logo food" />
                   </div>
 
-                  <h5> Reset  Password </h5>
+                  <h5> Reset Password </h5>
                   <p className=" text-muted">
-                  Please Enter Your Otp  or Check Your Inbox
-                  
-                                    </p>
+                    Please Enter Your Otp or Check Your Inbox
+                  </p>
 
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-group mb-3">
@@ -80,7 +77,7 @@ export default function ResetPass() {
                         className={`${styleLogin.IconInput} input-group-text`}
                         id="basic-addon1"
                       >
-<i className="fa-solid fa-envelope"></i>
+                        <i className="fa-solid fa-envelope"></i>
                       </span>
                       <input
                         className={`${styleLogin.InputLogin} form-control`}
@@ -147,7 +144,7 @@ export default function ResetPass() {
                           // }
                         })}
                       />
-                           <i
+                      <i
                         className={`fa-regular fa-eye${
                           showPassword ? "-slash" : ""
                         }`}
@@ -159,14 +156,11 @@ export default function ResetPass() {
                           {errors.password.message}
                         </div>
                       )}
-
-
                     </div>
 
+                    {/* confirmPassword */}
 
-{/* confirmPassword */}
-
-<div className="input-group mb-3">
+                    <div className="input-group mb-3">
                       <span
                         className={`${styleLogin.IconInput} input-group-text`}
                         id="basic-addon1"
@@ -180,11 +174,10 @@ export default function ResetPass() {
                         placeholder="Confirm New Password"
                         {...register("confirmPassword", {
                           required: "confirm Password is required",
-                      
                         })}
                       />
 
-<i
+                      <i
                         className={`fa-regular fa-eye${
                           showPassword ? "-slash" : ""
                         }`}
@@ -196,10 +189,7 @@ export default function ResetPass() {
                           {errors.confirmPassword.message}
                         </div>
                       )}
-
-
-</div>
-                  
+                    </div>
 
                     <button className=" w-100 btn btn-success">
                       {" "}

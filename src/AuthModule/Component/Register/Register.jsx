@@ -50,7 +50,7 @@ export default function Register() {
         "https://upskilling-egypt.com:3006/api/v1/Users/Register",
         registerForm
       );
-      console.log(response)
+      console.log(response);
 
       toast.success("Registeration Done ");
 
@@ -91,7 +91,7 @@ export default function Register() {
   // for ConfirmPassword
 
   const validateConfirmPassword = (value) => {
-        // console.log(value)
+    // console.log(value)
     const password = getValues("password");
     if (value !== password) {
       return "Passwords do not match.";
@@ -100,8 +100,6 @@ export default function Register() {
   };
   return (
     <>
-      <ToastContainer />
-
       <section className={`${styleRegister.secLogin}`}>
         <div className="AuthContainer vh-100">
           <div className="AuthLayer vh-100 container-fluid">
@@ -287,10 +285,10 @@ export default function Register() {
                             </div>
                           )}
                         </div>
-
-                        {/* input img */}
                       </div>
                     </div>
+
+                    {/* input img */}
 
                     <div className="input-group mb-3">
                       <input

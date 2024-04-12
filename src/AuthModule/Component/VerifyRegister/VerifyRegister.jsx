@@ -19,19 +19,16 @@ export default function VerifyRegister() {
 
   // data => شايل data for inputs
   async function onSubmit(data) {
-
     try {
       let DtaApi = await axios.put(
-        "https://upskilling-egypt.com:443/api/v1/Users/verify",
+        "https://upskilling-egypt.com:3006/api/v1/Users/verify",
         data
       );
       // console.log(DtaApi.data.token)
       let ResultToen = DtaApi.data.token;
       // console.log(ResultToen);
 
-      setTimeout(() => {
-        toast.success("Your code is correct");
-      }, 1000);
+      toast.success("Your code is correct");
       navigate("/login");
     } catch (error) {
       // console.log(error.response.data.message);
@@ -109,10 +106,6 @@ export default function VerifyRegister() {
                         </div>
                       )}
                     </div>
-
-                
-
-                 
 
                     <button className=" w-100 btn btn-success">
                       {" "}
