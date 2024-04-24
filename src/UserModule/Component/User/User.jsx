@@ -271,142 +271,142 @@ export default function User() {
         ) : ListUser.length > 0 ? (
           <div>
 
-<div className="container-fluid table ">
-            <table className={`${StyleUser.bgTable}`}>
-              <thead className="">
-                <tr className="tableActive   ">
-                  <th scope="col "> Name</th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Country</th>
-                  <th scope="col">Phone Number</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ListUser.map((user, index) => (
-                  <tr
-                    key={index}
-                    style={{
-                      backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F9FB",
-                    }}
-                  >
-                    <td>{user.userName}</td>
-                    <td className={`${StyleUser.conImg}`}>
-                      {user.imagePath ? (
-                        <img
-                          className={`${StyleUser.imgUser}`}
-                          src={`https://upskilling-egypt.com:3006/${user.imagePath}`}
-                          alt=""
-                        />
-                      ) : (
-                        <img
-                          className={`${StyleUser.imgUserReplace}`}
-                          src={imgUser}
-                          alt=""
-                        />
-                      )}
-                    </td>
-                    <td>{user.email}</td>
-                    <td>{user.country}</td>
-                    <td>{user.phoneNumber}</td>
-                    <td>
-                      <div className="btn-group">
-                        <span
-                          className="   "
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <i className="fa-solid fa-ellipsis"></i>{" "}
-                        </span>
-                        <ul className="dropdown-menu">
-                          <li>
-                            <span
-                              onClick={() => handleDelete(user.id)}
-                              className="dropdown-item"
-                            >
-                              <span
-                                className={`${StyleUser.btnCursor}   border-0  px-2`}
-                              >
-                                <i className="fa-solid fa-trash text-danger me-1"></i>
-                                Delete
-                              </span>{" "}
-                            </span>
-                          </li>
-
-                          <li>
-                            <span
-                              className="dropdown-item"
-                              onClick={() => handleViewProduct(user)}
-                            >
-                              <span
-                                className={`${StyleUser.btnCursor} border-0 px-2`}
-                              >
-                                <i className="fa-solid fa-street-view text-success me-1"></i>
-                                View
-                              </span>{" "}
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
-                     
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-          
-
-
-         
-          </div>
-
-            <nav>
-              <ul className="pagination">
-                <li className="page-item">
-                  <button
-                    className="page-link"
-                    onClick={handlePreviousPage}
-                    aria-label="Previous"
-                  >
-                    <span aria-hidden="true">&laquo;</span>
-                  </button>
-                </li>
-
-                {getPages.map((pageNu, index) => (
-                  <li
-                    key={index}
-                    className={`page-item ${
-                      currentPage === pageNu ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      setCurrentPage(pageNu);
-                      getListUser(
-                        pageNu,
-                        10,
-                        nameSearch,
-                        EmailSearch,
-                        countrySearch,
-                        selectedGroups
-                      );
-                    }}
-                  >
-                    <a className="page-link">{pageNu}</a>
+<div className="container-fluid">
+  <div className="table-responsive">
+    <table className={`${StyleUser.bgTable} table`}>
+      <thead className="">
+        <tr className="tableActive">
+          <th scope="col">Name</th>
+          <th scope="col">Image</th>
+          <th scope="col">Email</th>
+          <th scope="col">Country</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Actions</th>  
+        </tr>
+      </thead>
+      <tbody>
+        {ListUser.map((user, index) => (
+          <tr
+            key={index}
+            style={{
+              backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F9FB",
+            }}
+          >
+            <td>{user.userName}</td>
+            <td className={`${StyleUser.conImg}`}>
+              {user.imagePath ? (
+                <img
+                  className={`${StyleUser.imgUser}`}
+                  src={`https://upskilling-egypt.com:3006/${user.imagePath}`}
+                  alt=""
+                />
+              ) : (
+                <img
+                  className={`${StyleUser.imgUserReplace}`}
+                  src={imgUser}
+                  alt=""
+                />
+              )}
+            </td>
+            <td>{user.email}</td>
+            <td>{user.country}</td>
+            <td>{user.phoneNumber}</td>
+            <td>
+              <div className="btn-group">
+                <span
+                  // className="dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i className="fa-solid fa-ellipsis"></i>
+                </span>
+                <ul className="dropdown-menu">
+                  <li>
+                    <span
+                      onClick={() => handleDelete(user.id)}
+                      className="dropdown-item"
+                    >
+                      <span
+                        className={`${StyleUser.btnCursor} border-0 px-2`}
+                      >
+                        <i className="fa-solid fa-trash text-danger me-1"></i>
+                        Delete
+                      </span>
+                    </span>
                   </li>
-                ))}
+                  <li>
+                    <span
+                      className="dropdown-item"
+                      onClick={() => handleViewProduct(user)}
+                    >
+                      <span
+                        className={`${StyleUser.btnCursor} border-0 px-2`}
+                      >
+                        <i className="fa-solid fa-street-view text-success me-1"></i>
+                        View
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
 
-                <li className="page-item">
-                  <button
-                    className="page-link"
-                    onClick={handleNextPage}
-                    aria-label="Next"
-                  >
-                    <span aria-hidden="true">&raquo;</span>
-                  </button>
-                </li>
-              </ul>
-            </nav>
+
+<nav>
+  <ul className="pagination justify-content-center d-sm-flex flex-wrap mt-2"> 
+    <li className="page-item">
+      <button
+        className="page-link"
+        onClick={handlePreviousPage}
+        aria-label="Previous"
+      >
+        <span aria-hidden="true">&laquo;</span>
+      </button>
+    </li>
+
+    {getPages.map((pageNu, index) => (
+      <li
+        key={index}
+        className={`page-item ${
+          currentPage === pageNu ? "active" : ""
+        }`}
+        onClick={() => {
+          setCurrentPage(pageNu);
+          getListUser(
+            pageNu,
+            10,
+            nameSearch,
+            EmailSearch,
+            countrySearch,
+            selectedGroups
+          );
+        }}
+      >
+        <a className="page-link">{pageNu}</a>
+      </li>
+    ))}
+
+    <li className="page-item">
+      <button
+        className="page-link"
+        onClick={handleNextPage}
+        aria-label="Next"
+      >
+        <span aria-hidden="true">&raquo;</span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+
+
           </div>
          
 

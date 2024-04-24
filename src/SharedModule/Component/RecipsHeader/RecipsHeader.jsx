@@ -12,7 +12,7 @@ export default function RecipsHeader() {
   return (
     <>
 
-<div className={`${styleHome.space} container-fluid my-5    `} >
+<div className={`${styleHome.space} container-fluid my-5   `} >
       <div className={`${styleHome.bgHome} row mx-4 rounded-4    justify-content-center align-items-center  `}>
 
         <div className=" col-12 col-sm-12 col-md-12 col-lg-6  ">

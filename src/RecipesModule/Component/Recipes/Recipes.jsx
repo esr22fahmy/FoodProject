@@ -290,149 +290,153 @@ export default function Recipes() {
       </div>
       {/*  */}
       {/* table */}
-      <div className=" text-center mt-5 mx-4 ">
-        <table className="table">
-          <thead className="">
-            <tr className="tableActive">
-              <th scope="col">Name</th>
-              <th scope="col">Image</th>
-              <th scope="col">Price</th>
-              <th scope="col">Description</th>
-              <th scope="col">Tag</th>
-              <th scope="col">Category</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <td
-                colSpan="7"
-                className="text-center"
-                style={{ verticalAlign: "middle" }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <BallTriangle
-                    height={100}
-                    width={100}
-                    radius={5}
-                    color="#4fa94d"
-                    ariaLabel="ball-triangle-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                    visible={true}
-                  />
-                </div>
-              </td>
-            ) : ListRecipes.length > 0 ? (
-              ListRecipes.map((rec, index) => (
-                <tr
-                  key={index}
-                  style={{
-                    backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F9FB",
-                  }}
-                >
-                  <td>{rec.name}</td>
-                  <td className={`${styleRecipes.conImg}`}>
-                    {rec.imagePath ? (
-                      <img
-                        className={`${styleRecipes.imgrec}`}
-                        src={`https://upskilling-egypt.com:3006/${rec.imagePath}`}
-                        alt=""
-                      />
-                    ) : (
-                      <img
-                        className={`${styleRecipes.imgrec}`}
-                        src={imgError}
-                        alt=""
-                      />
-                    )}
-                  </td>
-                  <td>{rec.price}</td>
-                  <td>{rec.description}</td>
-                  <td>{rec.id}</td>
-                  <td>{rec.category[0]?.name}</td>
-                  <td>
-                    {loginData?.userGroup === "SuperAdmin" ? (
-                      <div className="btn-group">
-                        <span
-                          className=""
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <i className="fa-solid fa-ellipsis"></i>
-                        </span>
-                        <ul className="dropdown-menu">
-                          <li>
-                            <span
-                              onClick={() => handleEdit(rec)}
-                              className="dropdown-item"
-                            >
-                              <span
-                                className={`${styleRecipes.btnCursor} border-0 px-2`}
-                              >
-                                <i className="fa-solid fa-pen-to-square text-warning me-1"></i>
-                                Edit
-                              </span>
-                            </span>
-                          </li>
-                          <li>
-                            <span
-                              onClick={() => handleDelete(rec.id)}
-                              className="dropdown-item"
-                            >
-                              <span
-                                className={`${styleRecipes.btnCursor} border-0 px-2`}
-                              >
-                                <i className="fa-solid fa-trash text-danger me-1"></i>
-                                Delete
-                              </span>
-                            </span>
-                          </li>
-                          <li>
-                            <span
-                              className="dropdown-item"
-                              onClick={() => handleViewProduct(rec)}
-                            >
-                              <span
-                                className={`${styleRecipes.btnCursor} border-0 px-2`}
-                              >
-                                <i className="fa-solid fa-street-view text-success me-1"></i>
-                                View
-                              </span>
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
-                    ) : (
+     {/* table */}
+<div className="text-center mt-5 mx-4 table-responsive">
+  <table className="table">
+    <thead className="">
+      <tr className="tableActive">
+        <th scope="col">Name</th>
+        <th scope="col">Image</th>
+        <th scope="col">Price</th>
+        <th scope="col">Description</th>
+        <th scope="col">Tag</th>
+        <th scope="col">Category</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {loading ? (
+        <tr>
+          <td
+            colSpan="7"
+            className="text-center"
+            style={{ verticalAlign: "middle" }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <BallTriangle
+                height={100}
+                width={100}
+                radius={5}
+                color="#4fa94d"
+                ariaLabel="ball-triangle-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+            </div>
+          </td>
+        </tr>
+      ) : ListRecipes.length > 0 ? (
+        ListRecipes.map((rec, index) => (
+          <tr
+            key={index}
+            style={{
+              backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F9FB",
+            }}
+          >
+            <td>{rec.name}</td>
+            <td className={`${styleRecipes.conImg}`}>
+              {rec.imagePath ? (
+                <img
+                  className={`${styleRecipes.imgrec}`}
+                  src={`https://upskilling-egypt.com:3006/${rec.imagePath}`}
+                  alt=""
+                />
+              ) : (
+                <img
+                  className={`${styleRecipes.imgrec}`}
+                  src={imgError}
+                  alt=""
+                />
+              )}
+            </td>
+            <td>{rec.price}</td>
+            <td>{rec.description}</td>
+            <td>{rec.id}</td>
+            <td>{rec.category[0]?.name}</td>
+            <td>
+              {loginData?.userGroup === "SuperAdmin" ? (
+                <div className="btn-group">
+                  <span
+                    className=""
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i className="fa-solid fa-ellipsis"></i>
+                  </span>
+                  <ul className="dropdown-menu">
+                    <li>
                       <span
-                        className={`${styleRecipes.btnCursor}`}
-                        onClick={() => handleAddToFavorites(rec.id)}
+                        onClick={() => handleEdit(rec)}
+                        className="dropdown-item"
                       >
-                        <i
-                          className={`${styleRecipes.iconHeart} fa-solid fa-heart text-danger`}
-                        ></i>
+                        <span
+                          className={`${styleRecipes.btnCursor} border-0 px-2`}
+                        >
+                          <i className="fa-solid fa-pen-to-square text-warning me-1"></i>
+                          Edit
+                        </span>
                       </span>
-                    )}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7" className="text-center">
-                  <ImgNotData />
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+                    </li>
+                    <li>
+                      <span
+                        onClick={() => handleDelete(rec.id)}
+                        className="dropdown-item"
+                      >
+                        <span
+                          className={`${styleRecipes.btnCursor} border-0 px-2`}
+                        >
+                          <i className="fa-solid fa-trash text-danger me-1"></i>
+                          Delete
+                        </span>
+                      </span>
+                    </li>
+                    <li>
+                      <span
+                        className="dropdown-item"
+                        onClick={() => handleViewProduct(rec)}
+                      >
+                        <span
+                          className={`${styleRecipes.btnCursor} border-0 px-2`}
+                        >
+                          <i className="fa-solid fa-street-view text-success me-1"></i>
+                          View
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                <span
+                  className={`${styleRecipes.btnCursor}`}
+                  onClick={() => handleAddToFavorites(rec.id)}
+                >
+                  <i
+                    className={`${styleRecipes.iconHeart} fa-solid fa-heart text-danger`}
+                  ></i>
+                </span>
+              )}
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="7" className="text-center">
+            <ImgNotData />
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
+
       {/* // Modal for adding to favorites */}
       <div
         className={`modal fade ${showConfirmationModal ? "show" : ""}`}

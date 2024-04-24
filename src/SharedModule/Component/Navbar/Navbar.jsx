@@ -27,7 +27,7 @@ export default function NavBar({ DataAdmin }) {
     <>
     
 
-      <div className={`${styleNav.navCon} container p-3 m-3 rounded-3 `}>
+      <div className={`${styleNav.navCon} container-fluid  p-3 my-3 rounded-3 `}>
         <div className=" row d-flex  ">
           <div className=" col-md-6">
             <div className="">

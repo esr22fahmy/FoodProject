@@ -45,7 +45,6 @@ export default function Login({ FunDataAdmin }) {
     } catch (error) {
       console.log(error)
       toast.error(error.message);
-
       if (error) {
         if (error.response.status === 401) {
           toast.error("The password is incorrect");

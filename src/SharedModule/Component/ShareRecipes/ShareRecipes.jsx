@@ -3,8 +3,8 @@ import axios from "axios";
 
 const ShareRecipes = () => {
   const [ListRecipes, setListRecipes] = useState([]);
-  const [getPages, setgetPages] = useState(0);
-  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   const getRecipes = async (pageNu, pageSize, name, tagId, CatId) => {
     try {
@@ -23,31 +23,24 @@ const ShareRecipes = () => {
           },
         }
       );
-  
-      const totalPages = data.totalNumberOfPages;
-      const pagesArray = Array.from(Array(totalPages).keys()).map((num) => num + 1);
-      
-      setgetPages(pagesArray);
+
+      setTotalPages(data.totalNumberOfPages);
       setListRecipes(data.data);
-      // console.log(data.totalNumberOfPages);
     } catch (error) {
       console.log(error.message);
     }
   };
-  
 
   useEffect(() => {
-    getRecipes(1, 10);
-    // console.log(ListRecipes);
+    getRecipes(currentPage, 10); 
+  }, [currentPage]);
 
-
-  }, []);
-
-  return { ListRecipes, setListRecipes, getRecipes ,getPages };
+  return { ListRecipes, setListRecipes, getRecipes, totalPages, setCurrentPage ,currentPage};
 };
+
 
 export default ShareRecipes;
 
 
 
-                // "https://upskilling-egypt.com:443/api/v1/Recipe/?pageSize=10&pageNumber=1",
+  // "https://upskilling-egypt.com:443/api/v1/Recipe/?pageSize=10&pageNumber=1",
