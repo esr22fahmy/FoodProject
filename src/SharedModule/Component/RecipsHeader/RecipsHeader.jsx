@@ -13,18 +13,18 @@ export default function RecipsHeader() {
     <>
 
 <div className={`${styleHome.space} container-fluid my-5    `} >
-      <div className={`${styleHome.bgHome} row mx-4 rounded-4   `}>
+      <div className={`${styleHome.bgHome} row mx-4 rounded-4    justify-content-center align-items-center  `}>
 
-        <div className="  col-md-6   ">
+        <div className=" col-12 col-sm-12 col-md-12 col-lg-6  ">
           <h4>Fill the <span className={`${styleHome.differentColorCon } `} >Recipes</span> !</h4>
           <p>you can now fill the meals easily using the table and form , click here and sill it with the table !</p>
 
 
         </div>
 
-        <div className="  col-md-6  text-end ">
+        <div className=" col-12 col-sm-12 col-md-12  col-lg-6  text-end ">
 
-          <button onClick={navigateToRecipes} className={`${styleHome.btnHome} btn  px-5 py-2`}>  Fill Recipes  
+          <button onClick={navigateToRecipes} className={`${styleHome.btnHome} btn  `}>  Fill Recipes  
           <i className="fa-solid fa-arrow-right ms-2"></i>
           
             </button>

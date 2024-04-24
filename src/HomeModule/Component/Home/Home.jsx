@@ -25,7 +25,9 @@ const navigate=useNavigate();
       <Header
         className="  text-white"
         title={`Welcome ${DataAdmin?.userName} !`}
-        description={`This is a welcoming screen for the entry of the application , you can now see the options`}
+        description={`This is a welcoming screen for the entry of the application , `}
+        description2={`you can now see the options`}
+
         imgHom={imgHome}
       />
 

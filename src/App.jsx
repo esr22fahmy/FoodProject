@@ -14,11 +14,14 @@ import ProducteRoute from './SharedModule/Component/ProducteRoute/ProducteRoute'
 import ResetPass from './AuthModule/Component/ResetPass/ResetPass';
 import RecipesData from './RecipesModule/Component/Recipes/RecipesData';
 import Register from './AuthModule/Component/Register/Register';
-import { ToastContainer } from "react-toastify";
 import VerifyRegister from './AuthModule/Component/VerifyRegister/VerifyRegister';
 import Favorites from './Favorites/Favorites';
-import "react-toastify/dist/ReactToastify.css";
 
+// Toast
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+// 
 
 function App() {
   const [DataAdmin, setDataAdmin] = useState(null);
