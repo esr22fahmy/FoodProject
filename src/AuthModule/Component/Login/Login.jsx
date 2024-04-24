@@ -43,7 +43,9 @@ export default function Login({ FunDataAdmin }) {
       navigate("/dashboard");
       toast.success("You are logged in successfully!");
     } catch (error) {
-      // console.log(error)
+      console.log(error)
+      toast.error(error.message);
+
       if (error) {
         if (error.response.status === 401) {
           toast.error("The password is incorrect");
